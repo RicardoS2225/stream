@@ -28,6 +28,11 @@ export function ChannelPlayer({
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isReady, setIsReady] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const handleFullScreen = useCallback(() => {
     if (!containerRef.current) return;
@@ -106,7 +111,7 @@ export function ChannelPlayer({
           </div>
         </header>
         <div className="flex-1 w-full h-full">
-          {channel.url !== 'about:blank' ? (
+          {hasMounted && channel.url !== 'about:blank' ? (
               <ReactPlayer
                 ref={playerRef}
                 url={channel.url}
@@ -123,10 +128,10 @@ export function ChannelPlayer({
               />
           ) : (
               <div className="w-full h-full flex items-center justify-center bg-muted">
-                  <p className="text-muted-foreground">Canal no disponible</p>
+                  {channel.url === 'about:blank' ? <p className="text-muted-foreground">Canal no disponible</p> : <Loader className="h-8 w-8 animate-spin text-primary" />}
               </div>
           )}
-           {!isReady && channel.url !== 'about:blank' && (
+           {!isReady && hasMounted && channel.url !== 'about:blank' && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/70">
               <Loader className="h-8 w-8 animate-spin text-primary" />
             </div>
