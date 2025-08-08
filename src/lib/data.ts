@@ -12,7 +12,7 @@ export const channels: Channel[] = [
   {
     id: 'bolivision',
     name: 'Bolivisión',
-    url: 'https://www.redpat.tv/proxylpz/index.m3u8',
+    url: 'https://d2qsan2ut81n2k.cloudfront.net/live/20446f64-67d8-4100-8c4b-20a759a8e919/medialist_5900814650867226228_hls.m3u8',
   },
   {
     id: 'bolivia-tv',
@@ -22,7 +22,7 @@ export const channels: Channel[] = [
   {
     id: 'atb',
     name: 'ATB',
-    url: 'https://live.eu-north-1a.cf.dmcdn.net/sec2(6iW31sXJ7LKZrrTSRMVKflx3iJHELtqv62xU9FkQGvSzrzpHKZGAImSyi7g5L-QumTRgNJp7Ie1K40Fyp57LdoCWGZUBaPuoXtX5H78S8bo0wMVNsbHmjAom0tqUJ2ue)/dm/3/x84eirw/s/live-480.m3u8',
+    url: 'https://live.eu-north-1a.cf.dmcdn.net/sec2(IvMw57gYQ89pQL83jQtqPr6B9YYugCkBHiyuWVL81bc-1mpIGmSeFSY0YVBsoT9bBIRqbqo0jzi4A6JVtoIGFFmooG1CIU77GOZG-8bytZneLUiM-k1Tk-RA4RA829NR)/dm/3/x84eirw/s/live-240.m3u8',
   },
   {
     id: 'red-pat',
