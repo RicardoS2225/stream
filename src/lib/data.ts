@@ -32,7 +32,7 @@ export const channels: Channel[] = [
   {
     id: 'abya-yala',
     name: 'Abya Yala TV',
-    url: sampleStream,
+    url: 'https://seo.tv.bo/tv/XLIpSEO-TV-8.m3u8',
   },
   {
     id: 'rtp',
