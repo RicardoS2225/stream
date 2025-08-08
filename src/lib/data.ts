@@ -4,7 +4,7 @@ export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    url: 'https://television.unitel.bo/vivo',
+    url: 'https://dai.ly/x7vsezg',
   },
   {
     id: 'bolivision',
