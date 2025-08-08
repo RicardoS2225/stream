@@ -22,7 +22,7 @@ export const channels: Channel[] = [
   {
     id: 'atb',
     name: 'ATB',
-    url: 'https://live.eu-north-1a.cf.dmcdn.net/sec2(IvMw57gYQ89pQL83jQtqPr6B9YYugCkBHiyuWVL81bc-1mpIGmSeFSY0YVBsoT9bBIRqbqo0jzi4A6JVtoIGFFmooG1CIU77GOZG-8bytZneLUiM-k1Tk-RA4RA829NR)/dm/3/x84eirw/s/live-240.m3u8',
+    url: 'https://live.eu-north-1a.cf.dmcdn.net/sec2(gj029w-l3IXZ0PrKhShPQW_U3qsYzUimD1A0WSRTCzBld_nfWsdKLDSVj8V_9bC5Mbmw5k2tZwrE2iclgHsYomYufN4eBvR40wIGf7TgCHoE9RiyhY-7xXcgbFoUnAW9)/dm/3/x84eirw/s/live-480.m3u8',
   },
   {
     id: 'red-pat',
