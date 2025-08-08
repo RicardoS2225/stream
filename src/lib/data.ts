@@ -42,7 +42,7 @@ export const channels: Channel[] = [
   {
     id: 'red-uno',
     name: 'Red Uno',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(KbPOnoCP-YPmQ8JKlIAttzlMs478p9P1YwogPjmX1n5RJOzRwEaAXUExWdObp8ey3319VedeE-F-Mn-TaLLnWjyDpUOTM2vwgChrHw1UxAq3IlAMHdMOhIN2kpC3Zxem)/dm/3/x9mmebq/d/live-240.m3u8',
+    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(KbPOnoCP-YPmQ8JKlIAttzlMs478p9P1YwogPjmX1n5RJOzRwEaAXUExWdObp8ey3319VedeE-F-Mn-TaLLnWjyDpUOTM2vwgChrHw1UxAq3IlAMHdMOhIN2kpC3Zxem)/dm/3/x9mmebq/d/live-720.m3u8',
   },
   {
     id: 'placeholder-1',
