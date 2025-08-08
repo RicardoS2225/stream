@@ -27,7 +27,7 @@ export const channels: Channel[] = [
   {
     id: 'red-pat',
     name: 'Red PAT',
-    url: sampleStream,
+    url: 'https://www.redpat.tv/proxylpz/index.m3u8',
   },
   {
     id: 'abya-yala',
