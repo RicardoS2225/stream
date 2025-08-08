@@ -7,7 +7,7 @@ export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    url: sampleStream,
+    url: '/unitel.m3u8',
   },
   {
     id: 'bolivision',
