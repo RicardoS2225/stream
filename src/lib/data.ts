@@ -37,7 +37,7 @@ export const channels: Channel[] = [
   {
     id: 'rtp',
     name: 'RTP',
-    url: sampleStream,
+    url: 'https://rtp.noxun.net/hls/stream.m3u8',
   },
   {
     id: 'red-adoracion',
