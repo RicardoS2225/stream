@@ -17,7 +17,7 @@ export const channels: Channel[] = [
   {
     id: 'bolivia-tv',
     name: 'Bolivia TV',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(CsC7Qyd5kAHlYNKc85USmu24xhIo_yf_h_DlqfSbhb27WAmQ1Nk5O0acSfzz_Oakrs6YGHk3etgIThvXQEbyf6YckgtoAi5_DIqsvHcA-kaQtYwYX1XpQ2kDyTt7zbtD)/dm/3/x9oda6c/s/live-380.m3u8',
+    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(n6jEIPfSOvZmJ2-yYLS0kmXzMMXRXGnw7tFCkuePCdw4fOmmnhWPvIe3O8S94cPEKxV5sygwZ1S8HJlSf1NHCgdhXQOJNsWf4CH1yFxfpt11Teh1ZcW0lrbI11THBSSz)/dm/3/x9oda6c/s/live-380.m3u8',
   },
   {
     id: 'atb',
