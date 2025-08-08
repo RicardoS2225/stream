@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useRef, useState, useCallback } from 'react';
-import { Volume2, VolumeX, Maximize, Rewind, Radio } from 'lucide-react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { Volume2, VolumeX, Maximize, Rewind, Radio, Loader } from 'lucide-react';
 import type { Channel } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 type ChannelPlayerProps = {
   channel: Channel;
@@ -23,7 +24,10 @@ export function ChannelPlayer({
   onMuteToggle,
 }: ChannelPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<ReactPlayer>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   const handleFullScreen = useCallback(() => {
     if (!containerRef.current) return;
@@ -39,76 +43,99 @@ export function ChannelPlayer({
       setIsFullScreen(false);
     }
   }, []);
+  
+  // Keep track of fullscreen changes (e.g., user pressing Esc)
+  useEffect(() => {
+    const onFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', onFullScreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullScreenChange);
+  }, []);
 
   const handleSoloClick = () => {
     onSolo(isSolo ? null : channel.id);
   };
   
-  const effectiveMuted = isMuted && !isSolo;
+  const effectiveMuted = isSolo ? false : isMuted;
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300',
-        isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
-      )}
-    >
-      <header className="flex items-center justify-between p-2 bg-background/50 backdrop-blur-sm">
-        <h3 className="text-sm font-semibold truncate text-foreground">{channel.name}</h3>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-7 w-7" disabled>
-                <Rewind className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Rebobinar (Próximamente)</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onMuteToggle(channel.id)}>
-                {effectiveMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{effectiveMuted ? 'Activar Sonido' : 'Silenciar'}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant={isSolo ? 'default' : 'ghost'} size="icon" className="h-7 w-7" onClick={handleSoloClick}>
-                <Radio className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Audio Solo</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-               <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleFullScreen}>
-                <Maximize className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Pantalla Completa</TooltipContent>
-          </Tooltip>
-        </div>
-      </header>
-      <div className="flex-1 bg-black">
-        {channel.url !== 'about:blank' ? (
-            <iframe
-            src={channel.url}
-            className="w-full h-full border-0"
-            title={channel.name}
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        ) : (
-            <div className="w-full h-full flex items-center justify-center bg-muted">
-                <p className="text-muted-foreground">Canal no disponible</p>
-            </div>
+    <TooltipProvider>
+      <div
+        ref={containerRef}
+        className={cn(
+          'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black',
+          isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
         )}
+      >
+        <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-2 bg-gradient-to-b from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <h3 className="text-sm font-semibold truncate text-white drop-shadow-md">{channel.name}</h3>
+          <div className="flex items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-white hover:bg-white/20 hover:text-white" disabled>
+                  <Rewind className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Rebobinar (Próximamente)</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-white hover:bg-white/20 hover:text-white" onClick={() => onMuteToggle(channel.id)}>
+                  {effectiveMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{effectiveMuted ? 'Activar Sonido' : 'Silenciar'}</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant={isSolo ? 'default' : 'ghost'} size="icon" className="h-7 w-7 text-white hover:bg-white/20 data-[state=on]:bg-primary" onClick={handleSoloClick}>
+                  <Radio className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Audio Solo</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-white hover:bg-white/20 hover:text-white" onClick={handleFullScreen}>
+                  <Maximize className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Pantalla Completa</TooltipContent>
+            </Tooltip>
+          </div>
+        </header>
+        <div className="flex-1 w-full h-full">
+          {channel.url !== 'about:blank' ? (
+              <ReactPlayer
+                ref={playerRef}
+                url={channel.url}
+                playing={isPlaying}
+                muted={effectiveMuted}
+                onReady={() => setIsReady(true)}
+                width="100%"
+                height="100%"
+                config={{
+                  file: {
+                    forceHLS: true,
+                  },
+                }}
+              />
+          ) : (
+              <div className="w-full h-full flex items-center justify-center bg-muted">
+                  <p className="text-muted-foreground">Canal no disponible</p>
+              </div>
+          )}
+           {!isReady && channel.url !== 'about:blank' && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+              <Loader className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          )}
+        </div>
+        <footer className={cn("absolute bottom-0 left-0 right-0 p-1.5 text-center text-xs text-white bg-gradient-to-t from-black/60 to-transparent transition-opacity", isSolo ? 'opacity-100' : 'opacity-0 group-hover:opacity-100')}>
+          {isSolo ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
+        </footer>
       </div>
-      <footer className={cn("p-1.5 text-center text-xs text-muted-foreground bg-background/50 backdrop-blur-sm transition-opacity", isSolo ? 'opacity-100' : 'opacity-0 group-hover:opacity-100')}>
-        {isSolo ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
-      </footer>
-    </div>
+    </TooltipProvider>
   );
 }
