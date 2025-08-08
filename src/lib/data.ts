@@ -7,7 +7,7 @@ export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    url: '/unitel.m3u8',
+    url: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
   },
   {
     id: 'bolivision',
