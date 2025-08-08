@@ -12,7 +12,7 @@ export const channels: Channel[] = [
   {
     id: 'bolivision',
     name: 'Bolivisión',
-    url: sampleStream,
+    url: 'https://d2qsan2ut81n2k.cloudfront.net/live/20446f64-67d8-4100-8c4b-20a759a8e919/ts:abr.m3u8',
   },
   {
     id: 'bolivia-tv',
