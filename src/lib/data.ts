@@ -45,8 +45,8 @@ export const channels: Channel[] = [
     url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(KbPOnoCP-YPmQ8JKlIAttzlMs478p9P1YwogPjmX1n5RJOzRwEaAXUExWdObp8ey3319VedeE-F-Mn-TaLLnWjyDpUOTM2vwgChrHw1UxAq3IlAMHdMOhIN2kpC3Zxem)/dm/3/x9mmebq/d/live-720.m3u8',
   },
   {
-    id: 'placeholder-1',
-    name: 'Canal Ficticio',
-    url: 'about:blank',
+    id: 'cadena-a',
+    name: 'Cadena A',
+    url: 'https://5fe2654d6127d.streamlock.net/cadenaa/videocadenaa/chunklist_w526007948.m3u8',
   }
 ];
