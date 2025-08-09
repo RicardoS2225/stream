@@ -14,6 +14,6 @@ export const atbChannels: Channel[] = [
   {
     id: 'atb-scz',
     name: 'ATB Santa Cruz',
-    url: 'https://www.dailymotion.com/video/x89sfvo',
+    url: 'https://live.eu-north-1a.cf.dmcdn.net/sec2(GKZv0cU6isPoZCYSzZSEgGKeqkdB9mTJjtx1awrLiyEeW_x_W2JarpbN2hA1Gu6kETyEg868XD8e2uGgvcypMo6wbozALikc6IW-n5kPW9zsM9gbHuxroT8y0fHqquU9)/dm/3/x84eirw/s/live-380.m3u8',
   },
 ];
