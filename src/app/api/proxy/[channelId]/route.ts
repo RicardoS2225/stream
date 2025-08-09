@@ -11,6 +11,7 @@ export async function GET(
     const channel: Channel | undefined = channels.find((c) => c.id === channelId);
 
     if (!channel || !channel.url || channel.url === 'about:blank') {
+      console.error(`Channel not found or has an invalid URL: ${channelId}`);
       return new NextResponse(
         JSON.stringify({ error: 'Channel not found or has an invalid URL' }),
         {
@@ -21,9 +22,13 @@ export async function GET(
     }
 
     const streamUrl = channel.url;
+    console.log(`[PROXY] Fetching stream for ${channel.name} from ${streamUrl}`);
+
     let referer = new URL(streamUrl).origin + '/';
     if (channelId === 'atb') {
       referer = 'https://www.atb.com.bo/';
+    } else if (channelId === 'cadena-a') {
+      referer = 'https://www.cadenaadigital.com/';
     }
 
     const response = await fetch(streamUrl, {
@@ -36,6 +41,10 @@ export async function GET(
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error(
+        `[PROXY] Failed to fetch stream for ${channel.name}: ${response.status} ${response.statusText}`,
+        errorText
+      );
       return new NextResponse(
         JSON.stringify({
           error: `Failed to fetch stream: ${response.statusText}`,
@@ -48,6 +57,7 @@ export async function GET(
       );
     }
 
+    console.log(`[PROXY] Successfully fetched stream for ${channel.name}`);
     const body = response.body;
 
     return new NextResponse(body, {
@@ -60,6 +70,7 @@ export async function GET(
       },
     });
   } catch (error: any) {
+    console.error('[PROXY] Internal Server Error:', error);
     return new NextResponse(
       JSON.stringify({
         error: 'Internal Server Error',
