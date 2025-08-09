@@ -9,6 +9,6 @@ export const patChannels: Channel[] = [
   {
     id: 'pat-lpz',
     name: 'PAT La Paz',
-    url: 'https://w8.redpat.tv:8000/play/12/89085742.m3u8',
+    url: 'https://streamer01.digital.com.bo/session/a5da4006-74d2-11f0-9d9d-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/PAT/__op/hls-default/__f/14/audio_esp/index.m3u8',
   },
 ];
