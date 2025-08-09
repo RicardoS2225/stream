@@ -39,7 +39,7 @@ export default function ConfiguracionPage() {
                 Recomendado para reducir la fatiga visual.
               </span>
             </Label>
-            <Switch id="dark-mode" defaultChecked disabled />
+            <Switch id="dark-mode" defaultChecked={false} disabled />
           </div>
         </CardContent>
       </Card>
