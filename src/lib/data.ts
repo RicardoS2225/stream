@@ -1,7 +1,6 @@
 import type { Channel } from './types';
 
 // URLs de los streams de video directos.
-// El proxy se encargará de añadir los 'Referers' necesarios.
 export const channels: Channel[] = [
   // --- UNITEL ---
   {
@@ -51,6 +50,11 @@ export const channels: Channel[] = [
     name: 'ATB Movil',
     url: 'http://186.121.206.197/live/daniel/index.m3u8',
   },
+    {
+    id: 'atb-scz',
+    name: 'ATB Santa Cruz',
+    url: 'https://www.dailymotion.com/video/x89sfvo',
+  },
   // --- BOLIVISION ---
   {
     id: 'bolivision-lpz-hd',
@@ -83,6 +87,17 @@ export const channels: Channel[] = [
     name: 'Bolivia TV 7.2',
     url: 'https://5ca3e84a76d30.streamlock.net/boliviatv2/videoboliviatv2/chunklist_w1088797861_vo.m3u8',
   },
+    // --- GIGAVISION ---
+  {
+    id: 'gigavision-lpz',
+    name: 'Gigavisión La Paz',
+    url: 'https://tv2.bitstreaming.net:3896/multi_web/play_720.m3u8',
+  },
+  {
+    id: 'gigavision-scz',
+    name: 'Gigavisión Santa Cruz',
+    url: 'https://tv.bitstreaming.net:3348/multi_web/play_720.m3u8',
+  },
   // --- PAT ---
   {
     id: 'pat-scz',
@@ -93,17 +108,6 @@ export const channels: Channel[] = [
     id: 'pat-lpz',
     name: 'PAT La Paz',
     url: 'https://w8.redpat.tv:8000/play/12/89085742.m3u8',
-  },
-  // --- GIGAVISION ---
-  {
-    id: 'gigavision-lpz',
-    name: 'Gigavisión La Paz',
-    url: 'https://tv2.bitstreaming.net:3896/multi_web/play_720.m3u8',
-  },
-  {
-    id: 'gigavision-scz',
-    name: 'Gigavisión Santa Cruz',
-    url: 'https://tv.bitstreaming.net:3348/multi_web/play_720.m3u8',
   },
   // --- SEO TV ---
   {
@@ -132,7 +136,7 @@ export const channels: Channel[] = [
     name: 'F10 SD',
     url: 'https://tv2.bitstreaming.net:3235/multi_live/play_480.m3u8',
   },
-  // --- PACEÑISIMA ---
+    // --- PACEÑISIMA ---
   {
     id: 'pacenisima-tv',
     name: 'Paceñisima TV',

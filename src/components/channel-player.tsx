@@ -30,8 +30,8 @@ export function ChannelPlayer({
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // La URL apunta a nuestro propio proxy para eludir las restricciones de CORS/Referer.
-  const videoUrl = channel.url !== 'about:blank' ? `/api/proxy/${channel.id}` : 'about:blank';
+  // La URL apunta directamente al stream del canal.
+  const videoUrl = channel.url;
 
   useEffect(() => {
     setHasMounted(true);
