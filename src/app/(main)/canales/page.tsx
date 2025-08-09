@@ -3,7 +3,7 @@ import { channels } from '@/lib/data';
 
 export default function CanalesPage() {
   return (
-    <div className='h-full'>
+    <div>
       <ChannelGrid channels={channels} />
     </div>
   );
