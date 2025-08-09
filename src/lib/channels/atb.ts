@@ -4,7 +4,7 @@ export const atbChannels: Channel[] = [
   {
     id: 'atb-bolivia',
     name: 'ATB Bolivia',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(Tx7VK6BMAZ9mpm3vFPTEa7rXWtvpfEGekpZiuf2bazARdMcQdAiLC8mEwYPMn17Gbc41yRONB7whHh8Q1WyEkxl4J-Q628Wg-4yhvNBMXR5tvIRkzsgtwX5eaq6kwYvs)/dm/3/x84eirw/s/live-720.m3u8',
+    url: 'https://streamer01.digital.com.bo/session/a5b3700c-74d2-11f0-b624-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/ATB/__op/hls-default/__f/13/audio_esp/index.m3u8',
   },
   {
     id: 'atb-movil',
