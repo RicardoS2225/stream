@@ -17,7 +17,7 @@ export default function MainLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full flex-col bg-background">
+      <div className="flex w-full flex-col bg-background">
         <Sidebar>
           <SidebarHeader>
             <Logo />
@@ -28,7 +28,7 @@ export default function MainLayout({
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <div className="flex flex-col flex-1 h-screen overflow-hidden">
+          <div className="flex flex-col h-screen">
             <Header />
             <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
               {children}
