@@ -30,10 +30,8 @@ export function ChannelPlayer({
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // MEGA-ROBUST CHANGE: We now construct a proxy URL for ReactPlayer
-  // This forces all video requests to go through our server-side proxy
-  // where we can attach the necessary Referer and User-Agent headers.
-  const proxyUrl = `/api/proxy/${channel.id}`;
+  // Ya no usamos el proxy. Pasamos la URL del canal directamente.
+  const videoUrl = channel.url;
 
   useEffect(() => {
     setHasMounted(true);
@@ -116,10 +114,10 @@ export function ChannelPlayer({
           </div>
         </header>
         <div className="flex-1 w-full h-full">
-          {hasMounted && channel.url !== 'about:blank' ? (
+          {hasMounted && videoUrl !== 'about:blank' ? (
               <ReactPlayer
                 ref={playerRef}
-                url={proxyUrl} // Use the proxy URL here
+                url={videoUrl} // Usamos la URL directa del reproductor o del stream.
                 playing={isPlaying}
                 muted={effectiveMuted}
                 onReady={() => setIsReady(true)}
@@ -133,10 +131,10 @@ export function ChannelPlayer({
               />
           ) : (
               <div className="w-full h-full flex items-center justify-center bg-muted">
-                  {channel.url === 'about:blank' ? <p className="text-muted-foreground">Canal no disponible</p> : <Loader className="h-8 w-8 animate-spin text-primary" />}
+                  {videoUrl === 'about:blank' ? <p className="text-muted-foreground">Canal no disponible</p> : <Loader className="h-8 w-8 animate-spin text-primary" />}
               </div>
           )}
-           {!isReady && hasMounted && channel.url !== 'about:blank' && (
+           {!isReady && hasMounted && videoUrl !== 'about:blank' && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/70">
               <Loader className="h-8 w-8 animate-spin text-primary" />
             </div>
