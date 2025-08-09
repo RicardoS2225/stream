@@ -29,9 +29,9 @@ export function Header() {
   const title = getTitle(pathname);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md sm:px-6 shrink-0">
       <div className="flex items-center gap-2">
-        <SidebarTrigger className="md:hidden" />
+        <SidebarTrigger />
         <h1 className="text-xl font-semibold font-headline">{title}</h1>
       </div>
 

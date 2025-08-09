@@ -7,7 +7,6 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarInset,
-  SidebarFooter,
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 
@@ -17,7 +16,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider>
       <div className="flex min-h-screen w-full flex-col bg-background">
         <Sidebar>
           <SidebarHeader>
@@ -29,9 +28,9 @@ export default function MainLayout({
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 h-screen">
             <Header />
-            <main className="flex-1 p-4 sm:p-6 bg-secondary/40">
+            <main className="flex-1 p-4 sm:p-6 bg-secondary/40 overflow-y-auto">
               {children}
             </main>
           </div>
