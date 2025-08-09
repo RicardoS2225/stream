@@ -84,10 +84,7 @@ export function ChannelPlayer({
               alt={`${channel.name} logo`}
               width={48}
               height={48}
-              className={cn("h-8 w-auto rounded-sm object-contain",
-                // Truco para intentar hacer el logo blanco con filtros CSS
-                channel.id === 'atb-movil' && 'brightness-0 invert'
-              )}
+              className={cn("h-8 w-auto rounded-sm object-contain")}
             />
           </div>
         )}
