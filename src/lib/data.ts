@@ -6,7 +6,7 @@ export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    url: 'https://mdstrm.com/live-stream-playlist/5744c88798b7a94361567035.m3u8',
+    url: 'https://streamer01.digital.com.bo/session/c9cef0bc-74cb-11f0-9524-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/REDUNO/__op/hls-default/__f/14/audio_esp/index.m3u8',
   },
   {
     id: 'bolivision',
