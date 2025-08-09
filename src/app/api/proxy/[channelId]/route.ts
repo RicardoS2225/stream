@@ -6,7 +6,7 @@ import type { Channel } from '@/lib/types';
 // Mapa de "credenciales" (Referer) para los servidores que lo exigen.
 // Esto asegura que solo modificamos las solicitudes para los canales que lo necesitan.
 const channelRefererConfig: Record<string, string> = {
-  unitel: 'https://unitel.bo/',
+  unitel: 'https://television.unitel.bo/',
   atb: 'https://www.atb.com.bo/',
   'cadena-a': 'https://www.cadenaadigital.com/',
   bolivision: 'https://www.bolivision.com/',
@@ -69,7 +69,7 @@ export async function GET(
     
     // Crear una nueva respuesta de streaming.
     const responseHeaders = new Headers(response.headers);
-    responseHeaders.set('Access-Control-Allow-Origin', '*'); // Permitir CORS
+    responseHeaders.set('Access-control-allow-origin', '*'); // Permitir CORS
 
     return new NextResponse(response.body, {
       status: 200,
