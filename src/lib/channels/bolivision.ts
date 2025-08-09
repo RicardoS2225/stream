@@ -4,7 +4,7 @@ export const bolivisionChannels: Channel[] = [
   {
     id: 'bolivision-lpz-hd',
     name: 'Bolivisión La Paz HD',
-    url: 'https://d3ew2cr4djta2j.cloudfront.net/original.m3u8',
+    url: 'https://streamer01.digital.com.bo/session/24e60dd2-74db-11f0-89f0-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/BOLIVISION/__op/hls-default/__f/11/audio_esp/index.m3u8',
   },
   {
     id: 'bolivision-lpz-sd',

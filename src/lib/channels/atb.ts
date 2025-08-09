@@ -9,7 +9,7 @@ export const atbChannels: Channel[] = [
   {
     id: 'atb-movil',
     name: 'ATB Movil',
-    url: 'http://186.121.206.197/live/daniel/index.m3u8',
+    url: 'https://streamer04.digital.com.bo/session/aae5187c-74d8-11f0-9524-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/ATB/__op/hls-default/__f/13/video_400000/index.m3u8',
   },
   {
     id: 'atb-scz',
