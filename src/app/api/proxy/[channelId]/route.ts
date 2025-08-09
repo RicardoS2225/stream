@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { channels } from '@/lib/data';
 import type { Channel } from '@/lib/types';
 
+// Configuration for channels that require a specific Referer header.
+const channelRefererConfig: Record<string, string> = {
+  atb: 'https://www.atb.com.bo/',
+  'cadena-a': 'https://www.cadenaadigital.com/',
+  bolivision: 'https://www.bolivision.com/',
+  'red-uno': 'https://www.reduno.com.bo/',
+  unitel: 'https://unitel.bo/',
+};
+
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { channelId: string } }
@@ -23,21 +33,25 @@ export async function GET(
 
     const streamUrl = channel.url;
     console.log(`[PROXY] Fetching stream for ${channel.name} from ${streamUrl}`);
-
-    let referer = new URL(streamUrl).origin + '/';
-    if (channelId === 'atb') {
-      referer = 'https://www.atb.com.bo/';
-    } else if (channelId === 'cadena-a') {
-      referer = 'https://www.cadenaadigital.com/';
-    }
-
-    const response = await fetch(streamUrl, {
+    
+    // Build fetch options
+    const fetchOptions: RequestInit = {
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        Referer: referer,
       },
-    });
+    };
+    
+    // Add Referer ONLY if the channel is in our special config map.
+    if (channelRefererConfig[channelId]) {
+      (fetchOptions.headers as Record<string, string>)['Referer'] = channelRefererConfig[channelId];
+       console.log(`[PROXY] Using specific Referer for ${channel.name}: ${channelRefererConfig[channelId]}`);
+    } else {
+       console.log(`[PROXY] No specific Referer needed for ${channel.name}`);
+    }
+
+
+    const response = await fetch(streamUrl, fetchOptions);
 
     if (!response.ok) {
       const errorText = await response.text();
