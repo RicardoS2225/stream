@@ -30,6 +30,11 @@ export function ChannelPlayer({
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
+  // MEGA-ROBUST CHANGE: We now construct a proxy URL for ReactPlayer
+  // This forces all video requests to go through our server-side proxy
+  // where we can attach the necessary Referer and User-Agent headers.
+  const proxyUrl = `/api/proxy/${channel.id}`;
+
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -114,7 +119,7 @@ export function ChannelPlayer({
           {hasMounted && channel.url !== 'about:blank' ? (
               <ReactPlayer
                 ref={playerRef}
-                url={channel.url}
+                url={proxyUrl} // Use the proxy URL here
                 playing={isPlaying}
                 muted={effectiveMuted}
                 onReady={() => setIsReady(true)}
