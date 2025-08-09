@@ -7,6 +7,7 @@ import type { Channel } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import Image from 'next/image';
 
 type ChannelPlayerProps = {
   channel: Channel;
@@ -76,6 +77,17 @@ export function ChannelPlayer({
           isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
         )}
       >
+        {channel.logo && (
+          <div className="absolute top-2 left-2 z-20 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <Image
+              src={channel.logo}
+              alt={`${channel.name} logo`}
+              width={48}
+              height={48}
+              className="h-8 w-auto rounded-sm object-contain"
+            />
+          </div>
+        )}
         <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-2 bg-gradient-to-b from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <h3 className="text-sm font-semibold truncate text-white drop-shadow-md">{channel.name}</h3>
           <div className="flex items-center gap-1">

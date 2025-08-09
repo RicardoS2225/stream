@@ -24,7 +24,7 @@ export const otrosChannels: Channel[] = [
   {
     id: 'xto-tv',
     name: 'XTO TV',
-    url: 'https://614013e273786.streamlock.net:443/XtoTv/XtoTv/playlist.m3u8',
+    url: 'https://614013e273786.streamlock.net/XtoTv/XtoTv/chunklist_w1028738237.m3u8',
   },
   {
     id: 'red-advenir',

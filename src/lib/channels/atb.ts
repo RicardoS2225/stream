@@ -4,12 +4,13 @@ export const atbChannels: Channel[] = [
   {
     id: 'atb-bolivia',
     name: 'ATB Bolivia',
-    url: 'https://streamer01.digital.com.bo/session/a5b3700c-74d2-11f0-b624-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/ATB/__op/hls-default/__f/13/audio_esp/index.m3u8',
+    url: 'https://stream.atb.com.bo/live/daniel/index.m3u8',
   },
   {
     id: 'atb-movil',
     name: 'ATB Movil',
     url: 'https://streamer04.digital.com.bo/session/aae5187c-74d8-11f0-9524-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/ATB/__op/hls-default/__f/13/video_400000/index.m3u8',
+    logo: 'https://i.postimg.cc/CLfjYr5X/ATB-MOVIL-HD.jpg',
   },
   {
     id: 'atb-scz',
