@@ -14,7 +14,7 @@ export const otrosChannels: Channel[] = [
   {
     id: 'cadena-a',
     name: 'Cadena A',
-    url: 'https://streamer02.digital.com.bo/session/ab091e20-74d8-11f0-9524-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/CADENAA/__op/hls-default/__f/8/video_750000/index.m3u8',
+    url: 'https://5fe2654d6127d.streamlock.net/cadenaa/videocadenaa/chunklist_w1522635208.m3u8',
   },
   {
     id: 'tvu-umsa',
@@ -24,12 +24,12 @@ export const otrosChannels: Channel[] = [
   {
     id: 'xto-tv',
     name: 'XTO TV',
-    url: 'https://614013e273786.streamlock.net/XtoTv/XtoTv/chunklist_w1028738237.m3u8',
+    url: 'https://614013e273786.streamlock.net:443/XtoTv/XtoTv/playlist.m3u8',
   },
   {
     id: 'red-advenir',
     name: 'Red Advenir',
-    url: 'https://streamer1.streamhost.org/salive/GMIredadvenirh/chunklist_w1940547209.m3u8',
+    url: 'https://streamer1.streamhost.org/salive/GMIredadvenirh/playlist.m3u8',
   },
   {
     id: 'abya-yala',

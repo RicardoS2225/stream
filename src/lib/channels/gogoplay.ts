@@ -4,6 +4,6 @@ export const gogoplayChannels: Channel[] = [
   {
     id: 'gogoplay-tv',
     name: 'GogoPlay TV',
-    url: 'https://ssh101stream.ssh101.com/akamaissh101/ssh101/gogoplay/chunks.m3u8',
+    url: 'https://glb.bozztv.com/glb/ssh101/gogoplay/index.m3u8',
   },
 ];
