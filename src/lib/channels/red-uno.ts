@@ -9,7 +9,7 @@ export const redUnoChannels: Channel[] = [
   {
     id: 'red-uno-scz',
     name: 'Red Uno Santa Cruz',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(eunDEjwmAdp_Mj7o7250Xzmn-vfqg87SY6aIMbMGVFd8cPIwG4rbk6UceXmnL9cTSUMjYPE7A1sghfp_vmJwQjMem4Ob9U31COPQbAqOvJnlRC1eoHrqsNZZW-C6YwWv)/dm/3/x9mmebq/d/live-380.m3u8',
+    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(ftCCIQFyQ65_ajfQJIa_c0TKJWO-b6BanPAgnvfjRShoMAF84pfaN5R26WC_E6VgB8QUYnWqVPbJ5TDETa08qWmpB9GeplOMWce6h7GA1e7xS5YkpSpyuHBcIytwALNg)/dm/3/x9ie7h0/d/live-720.m3u8',
   },
   {
     id: 'red-uno-cbba',

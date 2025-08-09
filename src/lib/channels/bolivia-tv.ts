@@ -4,7 +4,7 @@ export const boliviaTvChannels: Channel[] = [
   {
     id: 'bolivia-tv-7-1',
     name: 'Bolivia TV 7.1',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(YL5kPuEl_kAhv6JD4bimATLb2plHUOgLkr7BsZbuXCruFqZQ2AG0ZomFczAdgNe3px5bc4B5sEtBDOEmFOnpKtJkIWkDTjWuupX21ZNV9K15E80yFIbZ1kIU9trTJJhJ)/dm/3/x9oda6c/s/live-480.m3u8',
+    url: 'https://5fe2654d6127d.streamlock.net/boliviatv/videoboliviatv/chunklist_w1395384263.m3u8',
   },
   {
     id: 'bolivia-tv-7-2',
