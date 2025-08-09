@@ -47,6 +47,6 @@ export const channels: Channel[] = [
   {
     id: 'cadena-a',
     name: 'Cadena A',
-    url: 'https://vsp.live/play/cadenaa.m3u8',
+    url: 'https://5fe2654d6127d.streamlock.net/cadenaa/videocadenaa/playlist.m3u8',
   }
 ];
