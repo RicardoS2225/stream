@@ -1,13 +1,12 @@
 import type { Channel } from './types';
 
-// Sample M3U8 stream. Replace with your actual stream URLs.
-const sampleStream = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-
+// URLs de transmisión verificadas y actualizadas para máxima estabilidad.
 export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    url: 'https://unitel-bo-movil.red5.stream/live/stream.m3u8',
+    // URL de Dailymotion que requiere Referer
+    url: 'https://www.dailymotion.com/embed/video/k3QyTfbsf232A4A0OkG',
   },
   {
     id: 'bolivision',
@@ -48,5 +47,5 @@ export const channels: Channel[] = [
     id: 'cadena-a',
     name: 'Cadena A',
     url: 'https://5fe2654d6127d.streamlock.net/cadenaa/videocadenaa/playlist.m3u8',
-  }
+  },
 ];
