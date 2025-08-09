@@ -69,8 +69,10 @@ export async function GET(
     console.log(`[PROXY] Stream obtenido con éxito para ${channel.name}`);
     
     // Crear una nueva respuesta de streaming.
+    // Esto es CRUCIAL: Pasamos el cuerpo del stream y las cabeceras originales
+    // del servidor del canal directamente al cliente.
     const responseHeaders = new Headers(response.headers);
-    responseHeaders.set('Access-control-allow-origin', '*'); // Permitir CORS
+    responseHeaders.set('Access-control-allow-origin', '*'); // Permitir CORS para el reproductor
 
     return new NextResponse(response.body, {
       status: 200,
