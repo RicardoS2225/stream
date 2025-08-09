@@ -6,6 +6,7 @@ import type { Channel } from '@/lib/types';
 // Mapa de "credenciales" (Referer) para los servidores que lo exigen.
 // Esto asegura que solo modificamos las solicitudes para los canales que lo necesitan.
 const channelRefererConfig: Record<string, string> = {
+  // Unitel usa Dailymotion, que verifica que la solicitud venga de la página de Unitel.
   unitel: 'https://television.unitel.bo/',
   atb: 'https://www.atb.com.bo/',
   'cadena-a': 'https://www.cadenaadigital.com/',

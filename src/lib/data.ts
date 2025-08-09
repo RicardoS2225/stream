@@ -5,7 +5,8 @@ export const channels: Channel[] = [
   {
     id: 'unitel',
     name: 'Unitel',
-    // URL de Dailymotion que requiere Referer
+    // URL del reproductor de Dailymotion, que es más estable.
+    // Requiere el Referer correcto para funcionar.
     url: 'https://www.dailymotion.com/embed/video/k3QyTfbsf232A4A0OkG',
   },
   {
