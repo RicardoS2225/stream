@@ -4,7 +4,7 @@ export const patChannels: Channel[] = [
   {
     id: 'pat-scz',
     name: 'PAT Santa Cruz',
-    url: 'https://w8.redpat.tv:8000/play/110/33597877.m3u8',
+    url: 'https://w8.redpat.tv:8000/play/110/16112403.m3u8',
   },
   {
     id: 'pat-lpz',
