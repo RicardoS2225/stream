@@ -6,7 +6,7 @@ export const channels: Channel[] = [
   {
     id: 'unitel-nacional',
     name: 'Unitel Nacional',
-    url: 'https://live-b2.cf.dmcdn.net/sec2(SL4d4L-mk2sIWYUmWGyDxhmhyOUtrPOlNVFyY4wBUQdIUwUlx2sppltLU5m4K_sjzr9S1bKlegi_5cPPIN1UayJc3HtOkGKiRTqFnk1bUqRZga2cn86DusBtrffzcaFj)/cloud/3/x7wzxiw/s/live-1080.m3u8',
+    url: 'https://streamer01.digital.com.bo/session/c9c388da-74cb-11f0-9d9d-00505683ffaa$h1.0$default/2ap337/__cl/cg:sworigin2/__c/CADENAA/__op/hls-default/__f/8/video_200000/index.m3u8',
   },
   {
     id: 'unitel-lpz',
