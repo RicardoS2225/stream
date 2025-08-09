@@ -30,9 +30,9 @@ export function ChannelPlayer({
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // Unitel (Dailymotion) se usa directamente, los demás a través del proxy.
-  const isDirectUrl = channel.url.includes('dailymotion.com');
-  const videoUrl = isDirectUrl ? channel.url : `/api/proxy/${channel.id}`;
+  // La URL se toma directamente del objeto channel.
+  // Ya no se usa el proxy.
+  const videoUrl = channel.url;
 
   useEffect(() => {
     setHasMounted(true);
@@ -132,7 +132,7 @@ export function ChannelPlayer({
               />
           ) : (
               <div className="w-full h-full flex items-center justify-center bg-muted">
-                  {videoUrl === 'about:blank' ? <p className="text-muted-foreground">Canal no disponible</p> : <Loader className="h-8 w-8 animate-spin text-primary" />}
+                  <p className="text-muted-foreground text-sm p-2 text-center">Canal no disponible</p>
               </div>
           )}
            {!isReady && hasMounted && videoUrl !== 'about:blank' && (
