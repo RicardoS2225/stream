@@ -5,11 +5,24 @@ import type { Channel } from '@/lib/types';
 // Mapa de configuración de Referers.
 // La clave es el 'id' del canal y el valor es la URL que se usará como Referer.
 const channelRefererConfig: Record<string, string> = {
-  unitel: 'https://television.unitel.bo/',
-  atb: 'https://www.atb.com.bo/',
+  // --- DailyMotion ---
+  'unitel-nacional': 'https://www.dailymotion.com/',
+  'red-uno-lpz': 'https://www.dailymotion.com/',
+  'red-uno-scz': 'https://www.dailymotion.com/',
+  'red-uno-cbba': 'https://www.dailymotion.com/',
+  'atb-bolivia': 'https://www.dailymotion.com/',
+  'unitel-lpz': 'https://www.dailymotion.com/',
+  'unitel-scz': 'https://www.dailymotion.com/',
+  'unitel-cbba': 'https://www.dailymotion.com/',
+  // --- Bolivision ---
+  'bolivision-lpz-hd': 'https://www.bolivision.com/',
+  'bolivision-lpz-sd': 'https://www.bolivision.com/',
+  'bolivision-scz-hd': 'https://www.bolivision.com/',
+  'bolivision-scz-sd': 'https://www.bolivision.com/',
+  // --- Otros con Referer ---
+  'pat-lpz': 'https://www.redpat.tv/',
+  'pat-scz': 'https://www.redpat.tv/',
   'cadena-a': 'https://www.cadenaadigital.com/',
-  bolivision: 'https://www.bolivision.com/',
-  'red-uno': 'https://www.reduno.com.bo/',
 };
 
 export async function GET(
@@ -58,7 +71,7 @@ export async function GET(
     // 7. Retransmitir la respuesta (el stream de video) al cliente.
     // Se clonan las cabeceras de la respuesta original para asegurar compatibilidad.
     const responseHeaders = new Headers(response.headers);
-
+    
     return new Response(response.body, {
       status: response.status,
       statusText: response.statusText,
