@@ -12,7 +12,22 @@ export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col h-full w-full relative">
+      {/* This button is now positioned absolutely relative to the whole page container */}
+      <Button
+        variant="secondary"
+        size="icon"
+        className="absolute top-4 left-4 z-50 h-8 w-8 rounded-full shadow-lg"
+        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+      >
+        {isHeaderVisible ? (
+          <ChevronUp className="h-5 w-5" />
+        ) : (
+          <ChevronDown className="h-5 w-5" />
+        )}
+        <span className="sr-only">Toggle Header</span>
+      </Button>
+      
       <div
         className={cn(
           'transition-all duration-300 ease-in-out',
@@ -24,20 +39,7 @@ export default function CanalesPage() {
         </div>
       </div>
 
-      <div className="relative flex-1 overflow-y-auto">
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute top-4 left-4 z-50 h-8 w-8 rounded-full shadow-lg"
-          onClick={() => setIsHeaderVisible(!isHeaderVisible)}
-        >
-          {isHeaderVisible ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
-            <ChevronDown className="h-5 w-5" />
-          )}
-          <span className="sr-only">Toggle Header</span>
-        </Button>
+      <div className="flex-1 overflow-y-auto">
         <div className="pt-2">
           <ChannelGrid channels={channels} />
         </div>
