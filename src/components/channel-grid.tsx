@@ -64,7 +64,12 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
           
-          const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null);
+          const isMuted =
+            // If there's a solo channel and it's not this one, mute it.
+            (soloChannelId !== null && soloChannelId !== channel.id) ||
+            // If there's a PiP channel (and no solo channel is active), mute it.
+            (pipChannelId !== null && soloChannelId === null);
+
 
           return (
             <div
