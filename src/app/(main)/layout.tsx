@@ -3,11 +3,7 @@ import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Logo } from '@/components/logo';
 import { MainNav } from '@/components/main-nav';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { GridSizeProvider } from '@/contexts/grid-size-context';
 import { SidebarProvider } from '@/components/ui/sidebar';
