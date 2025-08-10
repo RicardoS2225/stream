@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { ChannelGrid, type ChannelGridRef } from '@/components/channel-grid';
 import { salaDePrensaChannels } from '@/lib/channels/sala-de-prensa';
 import { Header } from '@/components/header';
@@ -19,10 +19,10 @@ export default function SalaDePrensaPage() {
     setPipChannel(channel);
   };
 
-  const handleEnterFullScreen = (channelId: string) => {
+  const handleEnterFullScreen = useCallback((channelId: string) => {
     gridRef.current?.enterFullScreen(channelId);
     setPipChannel(null); // Close PiP when entering fullscreen
-  };
+  }, []);
 
   return (
     <div className="flex flex-col h-full w-full relative">
