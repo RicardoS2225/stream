@@ -20,18 +20,17 @@ export default function CanalesLayout({
   return (
     <SidebarProvider>
       <div className="flex w-full flex-col bg-background">
-        {/* The sidebar is now a sheet on mobile and desktop for this layout */}
         <Sidebar>
           <SidebarHeader>
             <Logo />
           </SidebarHeader>
           <Separator />
           <SidebarContent className="p-2">
+            {/* Usamos el MainNav regular aqui para que el panel deslizable tenga la navegación */}
             <MainNav />
           </SidebarContent>
         </Sidebar>
         
-        {/* This div does not have the sidebar inset margin */}
         <div className="flex flex-col h-screen">
           <Header />
           <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
