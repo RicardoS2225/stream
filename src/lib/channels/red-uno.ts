@@ -4,7 +4,7 @@ export const redUnoChannels: Channel[] = [
   {
     id: 'red-uno-lpz',
     name: 'Red Uno La Paz',
-    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(eunDEjwmAdp_Mj7o7250Xzmn-vfqg87SY6aIMbMGVFd8cPIwG4rbk6UceXmnL9cTSUMjYPE7A1sghfp_vmJwQjMem4Ob9U31COPQbAqOvJnlRC1eoHrqsNZZW-C6YwWv)/dm/3/x9mmebq/d/live-380.m3u8',
+    url: 'https://614013e273786.streamlock.net:443/XtoTv/XtoTv/playlist.m3u8?PlaylistM3UCL',
   },
   {
     id: 'red-uno-scz',
