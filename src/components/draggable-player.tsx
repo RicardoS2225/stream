@@ -6,6 +6,7 @@ import { X, GripVertical } from 'lucide-react';
 import type { Channel } from '@/lib/types';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
 
 interface DraggablePlayerProps {
   channel: Channel;
@@ -19,6 +20,9 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
   const offset = useRef({ x: 0, y: 0 });
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only drag when clicking the header
+    if (e.currentTarget.dataset.dragHandle === undefined) return;
+    
     if (!dragRef.current) return;
     setIsDragging(true);
     const rect = dragRef.current.getBoundingClientRect();
@@ -59,15 +63,16 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
   return (
     <div
       ref={dragRef}
-      className="fixed z-50 w-[480px] max-w-[80vw]"
+      className="fixed z-50 w-[440px] max-w-[80vw] resize overflow-auto"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
         cursor: isDragging ? 'grabbing' : 'default',
       }}
     >
-      <Card className="flex flex-col shadow-2xl border-2 border-primary overflow-hidden">
+      <Card className="flex flex-col shadow-2xl border-2 border-primary overflow-hidden h-full">
         <div
+          data-drag-handle
           onMouseDown={handleMouseDown}
           className="flex items-center justify-between bg-card p-2 cursor-grab active:cursor-grabbing"
         >
