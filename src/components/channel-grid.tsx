@@ -5,24 +5,31 @@ import { ChannelPlayer } from './channel-player';
 import type { Channel } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useGridSize } from '@/contexts/grid-size-context';
+import { Card, CardContent } from './ui/card';
 
 type ChannelGridProps = {
   channels: Channel[];
   isSalaDePrensa?: boolean;
+  onSetPipChannel: (channel: Channel | null) => void;
+  pipChannelId?: string | null;
 };
 
-export function ChannelGrid({ channels, isSalaDePrensa = false }: ChannelGridProps) {
+export function ChannelGrid({
+  channels,
+  isSalaDePrensa = false,
+  onSetPipChannel,
+  pipChannelId,
+}: ChannelGridProps) {
   const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
   const [mutedChannels, setMutedChannels] = useState<Set<string>>(new Set());
   const { gridSize } = useGridSize();
 
   const handleMuteToggle = (id: string) => {
-    // When solo is active, toggling mute on the solo channel should disable solo mode.
     if (soloChannelId && soloChannelId === id) {
       setSoloChannelId(null);
     }
-    
-    setMutedChannels((prev) => {
+
+    setMutedChannels(prev => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -35,11 +42,8 @@ export function ChannelGrid({ channels, isSalaDePrensa = false }: ChannelGridPro
 
   const handleSolo = (id: string | null) => {
     setSoloChannelId(id);
-    // When solo mode is activated, we can clear the individual mute states
-    // so that when solo is turned off, channels return to an unmuted state,
-    // or we can preserve them. For now, let's not change the individual mutes.
   };
-  
+
   if (!channels || channels.length === 0) {
     return (
       <div className="flex items-center justify-center h-full border border-dashed rounded-lg">
@@ -47,20 +51,36 @@ export function ChannelGrid({ channels, isSalaDePrensa = false }: ChannelGridPro
       </div>
     );
   }
-  
+
   const gridClasses = isSalaDePrensa
-    ? `grid-cols-4 grid-rows-4` // Always 4x4 grid for Sala de Prensa
-    : `grid-cols-${gridSize}`; // Dynamic grid size for other pages
+    ? `grid-cols-4 grid-rows-4`
+    : `grid-cols-${gridSize}`;
 
   return (
     <div className={cn('grid gap-2 h-full', gridClasses)}>
-      {channels.map((channel) => {
-        // A channel is muted if it's in the muted set, UNLESS another channel is solo.
-        // If another channel is solo, THIS channel should be muted.
+      {channels.map(channel => {
+        if (channel.id === pipChannelId) {
+          return (
+            <Card
+              key={`${channel.id}-pip-placeholder`}
+              className="flex items-center justify-center bg-muted/40 border-dashed"
+            >
+              <CardContent className="p-0 text-center">
+                <p className="text-sm font-semibold text-muted-foreground">
+                  {channel.name}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  En Pantalla en Pantalla
+                </p>
+              </CardContent>
+            </Card>
+          );
+        }
+
         const isMuted = soloChannelId
           ? soloChannelId !== channel.id
           : mutedChannels.has(channel.id);
-          
+
         return (
           <ChannelPlayer
             key={channel.id}
@@ -69,6 +89,7 @@ export function ChannelGrid({ channels, isSalaDePrensa = false }: ChannelGridPro
             isMuted={isMuted}
             onSolo={handleSolo}
             onMuteToggle={handleMuteToggle}
+            onSetPipChannel={onSetPipChannel}
           />
         );
       })}
