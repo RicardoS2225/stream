@@ -59,7 +59,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
     const handleFullScreen = useCallback(() => {
       if (!containerRef.current) return;
       if (!document.fullscreenElement) {
-        onSolo(channel.id); // Set this channel to solo when entering fullscreen
+        onSolo(channel.id);
         containerRef.current.requestFullscreen().catch(err => {
           alert(
             `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
@@ -78,7 +78,6 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
 
     useEffect(() => {
       const onFullScreenChange = () => {
-        // When exiting fullscreen, if this channel was solo, un-solo it.
         if (!document.fullscreenElement && isSolo) {
             onSolo(null); 
         }

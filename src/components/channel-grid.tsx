@@ -64,16 +64,12 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
           
-          // A channel is muted if another channel is solo, OR if there's an active PiP channel.
-          // If no channel is solo and no channel is in PiP, all channels have audio.
           const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null);
 
           return (
             <div
               key={channel.id}
-              className={cn(
-                'relative',
-              )}
+              className={cn('relative')}
             >
               <div className={cn('h-full w-full', isPip ? 'opacity-0 pointer-events-none' : 'opacity-100')}>
                 <ChannelPlayer
