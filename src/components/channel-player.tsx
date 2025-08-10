@@ -48,7 +48,6 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const playerRef = useRef<ReactPlayer>(null);
-    const [isFullScreen, setIsFullScreen] = useState(false);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isReady, setIsReady] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
@@ -67,10 +66,8 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
             `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
           );
         });
-        setIsFullScreen(true);
       } else {
         document.exitFullscreen();
-        setIsFullScreen(false);
       }
     }, []);
 
@@ -82,12 +79,13 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
 
     useEffect(() => {
       const onFullScreenChange = () => {
-        setIsFullScreen(!!document.fullscreenElement);
+        // We just need to react to the state, not set it from here for this component.
       };
       document.addEventListener('fullscreenchange', onFullScreenChange);
       return () =>
         document.removeEventListener('fullscreenchange', onFullScreenChange);
     }, []);
+
 
     const handleSoloClick = () => {
       onSolo(isSolo ? null : channel.id);
@@ -97,14 +95,14 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
       onSetPipChannel(channel);
     };
 
-    const effectiveMuted = isMuted;
+    const effectiveMuted = isSolo ? false : true;
 
     return (
       <TooltipProvider>
         <div
           ref={containerRef}
           className={cn(
-            'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black',
+            'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black h-full',
             isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
           )}
         >
@@ -140,31 +138,12 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
-                    onClick={() => onMuteToggle(channel.id)}
-                  >
-                    {effectiveMuted ? (
-                      <VolumeX className="h-4 w-4" />
-                    ) : (
-                      <Volume2 className="h-4 w-4" />
-                    )}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  {effectiveMuted ? 'Activar Sonido' : 'Silenciar'}
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
                     variant={isSolo ? 'default' : 'ghost'}
                     size="icon"
                     className="h-7 w-7 text-white hover:bg-white/20 data-[state=on]:bg-primary"
                     onClick={handleSoloClick}
                   >
-                    <Radio className="h-4 w-4" />
+                    {isSolo ? <Volume2 className="h-4 w-4" /> : <Radio className="h-4 w-4" />}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Audio Solo</TooltipContent>
