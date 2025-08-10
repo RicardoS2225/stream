@@ -84,11 +84,14 @@ export function MainNav() {
           <CollapsibleContent>
             <SidebarMenuSub>
               <SidebarMenuSubItem>
-                <Link href="/canales">
+                <Link href="/canales" passHref legacyBehavior>
                   <SidebarMenuSubButton
+                    asChild
                     isActive={pathname === '/canales'}
                   >
-                    <span>Todos los canales</span>
+                    <a>
+                     <span>Todos los canales</span>
+                    </a>
                   </SidebarMenuSubButton>
                 </Link>
               </SidebarMenuSubItem>
