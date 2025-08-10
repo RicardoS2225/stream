@@ -14,7 +14,7 @@ export const unitelChannels: Channel[] = [
   {
     id: 'unitel-scz',
     name: 'Unitel Santa Cruz',
-    url: 'https://www.dailymotion.com/video/x7vsezg',
+    url: 'https://live2.eu-north-1b.cf.dmcdn.net/sec2(DG1A1T_1z6_PDWmk_3R0FvyBbzFNKUawFdtoZ9nFOWGWYHazdg611WiY86Xv9776OsadG4b5vmqjaEQPm9XlXirVjHYOoaqo4T2MLur-UWbH6lJ6dVBxWearn0tlATZ7)/cloud/3/x7vsezg/d/live-720.m3u8',
   },
   {
     id: 'unitel-cbba',
