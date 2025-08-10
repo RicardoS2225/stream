@@ -19,7 +19,7 @@ export default function CanalesLayout({
 
   return (
     <SidebarProvider>
-      {/* Contenedor principal que no tiene barra lateral fija */}
+      {/* Contenedor principal que NO tiene barra lateral fija */}
       <div className="flex w-full flex-col bg-background h-screen">
         
         {/* El Sidebar aquí solo actúa como un Sheet/panel deslizable en móvil O cuando se llama con el Trigger */}

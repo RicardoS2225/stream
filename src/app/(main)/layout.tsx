@@ -20,7 +20,8 @@ export default function MainLayout({
     const pathname = usePathname();
     const isCanalesPage = pathname.startsWith('/canales');
 
-    // Si estamos en la página de canales, pasamos el control al layout específico de canales.
+    // Si estamos en la página de canales, pasamos el control al layout específico de canales,
+    // que no tiene barra lateral fija.
     if (isCanalesPage) {
         return <>{children}</>;
     }
