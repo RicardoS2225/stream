@@ -102,7 +102,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
         <div
           ref={containerRef}
           className={cn(
-            'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black h-full',
+            'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black h-full w-full',
             isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
           )}
         >
