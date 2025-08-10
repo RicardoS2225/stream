@@ -13,9 +13,12 @@ import { DraggablePlayer } from '@/components/draggable-player';
 export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [pipChannel, setPipChannel] = useState<Channel | null>(null);
+  const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
   const gridRef = useRef<ChannelGridRef>(null);
 
   const handleSetPipChannel = (channel: Channel | null) => {
+    // When a channel is sent to PiP, it should also get audio focus.
+    setSoloChannelId(channel ? channel.id : null);
     setPipChannel(channel);
   };
 
@@ -23,6 +26,10 @@ export default function CanalesPage() {
     gridRef.current?.enterFullScreen(channelId);
     setPipChannel(null); // Close PiP when entering fullscreen
   }, []);
+
+  const handleSoloChange = (channelId: string | null) => {
+    setSoloChannelId(channelId);
+  };
 
   return (
     <div className="flex flex-col h-full w-full relative">
@@ -63,6 +70,8 @@ export default function CanalesPage() {
             channels={channels}
             onSetPipChannel={handleSetPipChannel}
             pipChannelId={pipChannel?.id}
+            soloChannelId={soloChannelId}
+            onSoloChange={handleSoloChange}
           />
         </div>
       </div>

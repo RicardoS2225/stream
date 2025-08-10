@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
 import { ChannelPlayer, type ChannelPlayerRef } from './channel-player';
 import type { Channel } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,8 @@ type ChannelGridProps = {
   isSalaDePrensa?: boolean;
   onSetPipChannel: (channel: Channel | null) => void;
   pipChannelId?: string | null;
+  soloChannelId: string | null;
+  onSoloChange: (id: string | null) => void;
   onDragStart?: (channelId: string) => void;
   onDrop?: (targetChannelId: string) => void;
 };
@@ -27,13 +29,14 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
       isSalaDePrensa = false,
       onSetPipChannel,
       pipChannelId,
+      soloChannelId,
+      onSoloChange,
       onDragStart,
       onDrop,
     },
     ref
   ) => {
     const { gridSize } = useGridSize();
-    const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
     const playerRefs = useRef<Map<string, ChannelPlayerRef | null>>(new Map());
 
     useImperativeHandle(ref, () => ({
@@ -42,16 +45,6 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
       },
     }));
 
-    const handleSolo = (id: string | null) => {
-      setSoloChannelId(id);
-    };
-
-    const handleSetPipChannel = (channel: Channel | null) => {
-      // When a channel is sent to PiP, it should also get audio focus.
-      setSoloChannelId(channel ? channel.id : null);
-      onSetPipChannel(channel);
-    };
-    
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault(); // Necessary to allow dropping
     };
@@ -78,9 +71,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
 
-          const isMuted =
-            (soloChannelId !== null && soloChannelId !== channel.id) ||
-            (pipChannelId !== null && channel.id === pipChannelId);
+          const isMuted = (soloChannelId !== null && soloChannelId !== channel.id) || (pipChannelId !== null && channel.id === pipChannelId);
 
           return (
             <div
@@ -102,8 +93,9 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                   }}
                   channel={channel}
                   isSolo={isSolo}
-                  onSolo={handleSolo}
-                  onSetPipChannel={handleSetPipChannel}
+                  isMuted={isMuted}
+                  onSolo={onSoloChange}
+                  onSetPipChannel={onSetPipChannel}
                 />
               </div>
                {isPip && (
