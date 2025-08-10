@@ -75,7 +75,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                 'relative',
               )}
             >
-              <div className={cn('h-full w-full', isPip && 'opacity-0 pointer-events-none')}>
+              <div className={cn('h-full w-full', isPip ? 'opacity-0 pointer-events-none' : 'opacity-100')}>
                 <ChannelPlayer
                   ref={node => {
                     if (node) {
