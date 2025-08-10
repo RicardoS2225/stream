@@ -21,7 +21,7 @@ export default function CanalesPage() {
 
   const handleEnterFullScreen = (channelId: string) => {
     gridRef.current?.enterFullScreen(channelId);
-    handleSetPipChannel(null); // Close PiP when entering fullscreen
+    setPipChannel(null); // Close PiP when entering fullscreen
   };
 
   return (
