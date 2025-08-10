@@ -47,6 +47,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
     };
 
     const handleSetPipChannel = (channel: Channel | null) => {
+      // When a channel is sent to PiP, it should also get audio focus.
       setSoloChannelId(channel ? channel.id : null);
       onSetPipChannel(channel);
     };
@@ -73,7 +74,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
 
     return (
       <div className={cn('grid gap-2 h-full', gridClasses)}>
-        {channels.map(channel => {
+        {channels.map((channel, index) => {
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
 
@@ -83,7 +84,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
 
           return (
             <div
-              key={channel.id}
+              key={`${channel.id}-${index}`} // Use index in key to force re-mount on swap
               className={cn('relative', { 'cursor-grab': isSalaDePrensa })}
               draggable={isSalaDePrensa}
               onDragStart={() => onDragStart?.(channel.id)}
@@ -101,7 +102,6 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                   }}
                   channel={channel}
                   isSolo={isSolo}
-                  isMuted={isMuted}
                   onSolo={handleSolo}
                   onSetPipChannel={handleSetPipChannel}
                 />
