@@ -7,29 +7,19 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
-  SidebarInset,
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
-import { usePathname } from 'next/navigation';
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-    const pathname = usePathname();
-    const isCanalesPage = pathname.startsWith('/canales');
 
-    // Si estamos en la página de canales, pasamos el control al layout específico de canales,
-    // que no tiene barra lateral fija.
-    if (isCanalesPage) {
-        return <>{children}</>;
-    }
-
-  // Para el resto de las páginas, usamos el layout con la barra lateral fija.
   return (
     <SidebarProvider>
-      <div className="flex w-full flex-col bg-background">
+      <div className="flex w-full flex-col bg-background h-screen">
+        
         <Sidebar>
           <SidebarHeader>
             <Logo />
@@ -39,15 +29,13 @@ export default function MainLayout({
             <MainNav />
           </SidebarContent>
         </Sidebar>
-
-        <SidebarInset>
-          <div className="flex flex-col h-screen">
-            <Header />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
-              {children}
-            </main>
-          </div>
-        </SidebarInset>
+        
+        <div className="flex flex-col h-full">
+          <Header />
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
+            {children}
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );
