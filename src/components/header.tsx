@@ -1,9 +1,10 @@
+// src/components/header.tsx
 'use client';
 
 import { usePathname } from 'next/navigation';
 import { SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Newspaper, User, PanelLeft } from 'lucide-react';
+import { Newspaper, User, PanelLeft, Grid2X2, Grid3X3, Grid } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
 import {
   DropdownMenu,
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
+import { useGridSize } from '@/contexts/grid-size-context';
 
 const getTitle = (pathname: string) => {
   if (pathname.startsWith('/dashboard')) return 'Dashboard';
@@ -24,9 +25,29 @@ const getTitle = (pathname: string) => {
   return 'Oscar Streaming';
 };
 
+function GridControls() {
+    const { gridSize, setGridSize } = useGridSize();
+    
+    return (
+        <div className='flex items-center gap-2'>
+            <Button variant={gridSize === 2 ? "secondary" : "ghost"} size="icon" onClick={() => setGridSize(2)}>
+                <Grid2X2 className="h-5 w-5"/>
+            </Button>
+            <Button variant={gridSize === 3 ? "secondary" : "ghost"} size="icon" onClick={() => setGridSize(3)}>
+                <Grid3X3 className="h-5 w-5"/>
+            </Button>
+            <Button variant={gridSize === 4 ? "secondary" : "ghost"} size="icon" onClick={() => setGridSize(4)}>
+                <Grid className="h-5 w-5"/>
+            </Button>
+        </div>
+    );
+}
+
+
 export function Header() {
   const pathname = usePathname();
   const title = getTitle(pathname);
+  const showGridControls = pathname.startsWith('/canales');
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md sm:px-6 shrink-0">
@@ -41,6 +62,7 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        {showGridControls && <GridControls />}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="shrink-0">
