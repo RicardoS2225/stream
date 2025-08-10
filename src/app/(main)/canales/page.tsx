@@ -12,27 +12,31 @@ export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="relative flex flex-col h-full w-full">
+      {/* Botón movido fuera del contenedor del Header */}
+      <Button
+        variant="secondary"
+        size="icon"
+        className="absolute top-2 left-2 z-50 h-8 w-8 rounded-full shadow-lg"
+        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+      >
+        {isHeaderVisible ? (
+          <ChevronUp className="h-5 w-5" />
+        ) : (
+          <ChevronDown className="h-5 w-5" />
+        )}
+        <span className="sr-only">Toggle Header</span>
+      </Button>
+
       <div
         className={cn(
-          'relative transition-all duration-300 ease-in-out overflow-hidden',
+          'transition-all duration-300 ease-in-out',
           isHeaderVisible ? 'h-16' : 'h-0'
         )}
       >
-        <Header />
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute top-2 left-2 z-50 h-8 w-8 rounded-full shadow-lg"
-          onClick={() => setIsHeaderVisible(!isHeaderVisible)}
-        >
-          {isHeaderVisible ? (
-            <ChevronUp className="h-5 w-5" />
-          ) : (
-            <ChevronDown className="h-5 w-5" />
-          )}
-          <span className="sr-only">Toggle Header</span>
-        </Button>
+        <div className={cn("transition-opacity duration-200", isHeaderVisible ? 'opacity-100' : 'opacity-0')}>
+           <Header />
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto pt-4">
