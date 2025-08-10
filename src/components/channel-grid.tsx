@@ -29,10 +29,8 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
     ref
   ) => {
     const { gridSize } = useGridSize();
-    // Default to the first channel having audio.
-    const [soloChannelId, setSoloChannelId] = useState<string | null>(
-      channels.length > 0 ? channels[0].id : null
-    );
+    // Default to NO channel having solo audio. All channels will have sound.
+    const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
     const playerRefs = useRef<Map<string, ChannelPlayerRef | null>>(new Map());
 
     useImperativeHandle(ref, () => ({
@@ -47,7 +45,11 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
 
     const handleSetPipChannel = (channel: Channel | null) => {
       if (channel) {
+        // When a channel goes PiP, it should be the only one with sound.
         setSoloChannelId(channel.id);
+      } else {
+        // When PiP is closed, restore default audio state (all on).
+        setSoloChannelId(null);
       }
       onSetPipChannel(channel);
     };
@@ -74,6 +76,9 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
 
+          // A channel is muted if there IS a solo channel, AND it's not this one.
+          const isMuted = soloChannelId !== null && soloChannelId !== channel.id;
+
           return (
             <div
               key={channel.id}
@@ -90,6 +95,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                   }}
                   channel={channel}
                   isSolo={isSolo}
+                  isMuted={isMuted}
                   onSolo={handleSolo}
                   onSetPipChannel={handleSetPipChannel}
                 />

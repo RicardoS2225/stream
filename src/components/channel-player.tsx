@@ -31,6 +31,7 @@ import Image from 'next/image';
 type ChannelPlayerProps = {
   channel: Channel;
   isSolo: boolean;
+  isMuted: boolean;
   onSolo: (id: string | null) => void;
   onSetPipChannel: (channel: Channel | null) => void;
 };
@@ -41,17 +42,15 @@ export type ChannelPlayerRef = {
 
 export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
   (
-    { channel, isSolo, onSolo, onSetPipChannel },
+    { channel, isSolo, isMuted, onSolo, onSetPipChannel },
     ref
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const playerRef = useRef<ReactPlayer>(null);
     const [isReady, setIsReady] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
-
-    // This is the single source of truth for muting.
-    const actualMuted = !isSolo;
-
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    
     useEffect(() => {
       setHasMounted(true);
     }, []);
@@ -78,7 +77,12 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
 
     useEffect(() => {
       const onFullScreenChange = () => {
-        if (!document.fullscreenElement && isSolo) {
+        const isCurrentlyFullScreen = !!document.fullscreenElement;
+        setIsFullScreen(isCurrentlyFullScreen);
+
+        // When exiting fullscreen, if this channel was the solo one,
+        // revert to the default state (all audios on) by setting solo to null.
+        if (!isCurrentlyFullScreen && isSolo) {
             onSolo(null); 
         }
       };
@@ -145,7 +149,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
                     {isSolo ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>{isSolo ? 'Silenciar' : 'Audio Solo'}</TooltipContent>
+                <TooltipContent>{isSolo ? 'Quitar Solo' : 'Audio Solo'}</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -168,7 +172,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
                 ref={playerRef}
                 url={channel.url}
                 playing={true}
-                muted={actualMuted}
+                muted={isMuted}
                 onReady={() => setIsReady(true)}
                 width="100%"
                 height="100%"
