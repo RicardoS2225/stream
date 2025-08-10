@@ -61,6 +61,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
     const handleFullScreen = useCallback(() => {
       if (!containerRef.current) return;
       if (!document.fullscreenElement) {
+        onSolo(channel.id); // Set this channel to solo when entering fullscreen
         containerRef.current.requestFullscreen().catch(err => {
           alert(
             `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
@@ -69,7 +70,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
       } else {
         document.exitFullscreen();
       }
-    }, []);
+    }, [channel.id, onSolo]);
 
     useImperativeHandle(ref, () => ({
       enterFullScreen: () => {
@@ -79,12 +80,14 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
 
     useEffect(() => {
       const onFullScreenChange = () => {
-        // We just need to react to the state, not set it from here for this component.
+        if (!document.fullscreenElement && isSolo) {
+            onSolo(null); // Un-solo when exiting fullscreen
+        }
       };
       document.addEventListener('fullscreenchange', onFullScreenChange);
       return () =>
         document.removeEventListener('fullscreenchange', onFullScreenChange);
-    }, []);
+    }, [isSolo, onSolo]);
 
 
     const handleSoloClick = () => {

@@ -62,9 +62,10 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
       <div className={cn('grid gap-2 h-full', gridClasses)}>
         {channels.map(channel => {
           const isPip = channel.id === pipChannelId;
-          const isMuted = soloChannelId
-            ? soloChannelId !== channel.id
-            : false;
+          const isSolo = soloChannelId === channel.id;
+          
+          // A channel is muted if another channel is solo, OR if there's an active PiP channel that is not this one.
+          const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null && !isPip);
 
           return (
             <div
@@ -83,7 +84,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                     }
                   }}
                   channel={channel}
-                  isSolo={soloChannelId === channel.id}
+                  isSolo={isSolo}
                   isMuted={isMuted}
                   onSolo={handleSolo}
                   onMuteToggle={() => {}} // Mute is now handled by solo
