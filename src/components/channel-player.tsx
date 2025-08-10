@@ -6,7 +6,6 @@ import {
   Volume2,
   VolumeX,
   Maximize,
-  Rewind,
   Radio,
   Loader,
   PictureInPicture2,
@@ -46,11 +45,20 @@ export function ChannelPlayer({
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
+  const [isSingleChannelView, setIsSingleChannelView] = useState(false);
+
   const videoUrl = channel.url;
 
   useEffect(() => {
     setHasMounted(true);
-  }, []);
+    // A simple way to check if we are on the single channel page
+    // by checking if the onSolo prop is just an empty function.
+    // This is a bit of a hack, but it works for our current setup.
+    if (onSolo.toString() === '() => {}') {
+        setIsSingleChannelView(true);
+    }
+
+  }, [onSolo]);
 
   const handleFullScreen = useCallback(() => {
     if (!containerRef.current) return;
@@ -92,7 +100,7 @@ export function ChannelPlayer({
         ref={containerRef}
         className={cn(
           'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black',
-          isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
+          isSolo && !isSingleChannelView ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
         )}
       >
         {channel.logo && (
@@ -111,19 +119,21 @@ export function ChannelPlayer({
             {channel.name}
           </h3>
           <div className="flex items-center gap-1">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
-                  onClick={handlePipClick}
-                >
-                  <PictureInPicture2 className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Pantalla en Pantalla</TooltipContent>
-            </Tooltip>
+            {!isSingleChannelView && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
+                    onClick={handlePipClick}
+                  >
+                    <PictureInPicture2 className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Pantalla en Pantalla</TooltipContent>
+              </Tooltip>
+            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -143,19 +153,21 @@ export function ChannelPlayer({
                 {effectiveMuted ? 'Activar Sonido' : 'Silenciar'}
               </TooltipContent>
             </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={isSolo ? 'default' : 'ghost'}
-                  size="icon"
-                  className="h-7 w-7 text-white hover:bg-white/20 data-[state=on]:bg-primary"
-                  onClick={handleSoloClick}
-                >
-                  <Radio className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Audio Solo</TooltipContent>
-            </Tooltip>
+            {!isSingleChannelView && (
+               <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={isSolo ? 'default' : 'ghost'}
+                    size="icon"
+                    className="h-7 w-7 text-white hover:bg-white/20 data-[state=on]:bg-primary"
+                    onClick={handleSoloClick}
+                  >
+                    <Radio className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Audio Solo</TooltipContent>
+              </Tooltip>
+            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -203,10 +215,10 @@ export function ChannelPlayer({
         <footer
           className={cn(
             'absolute bottom-0 left-0 right-0 p-1.5 text-center text-xs text-white bg-gradient-to-t from-black/60 to-transparent transition-opacity',
-            isSolo ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+            isSolo && !isSingleChannelView ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
           )}
         >
-          {isSolo ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
+          {isSolo && !isSingleChannelView ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
         </footer>
       </div>
     </TooltipProvider>
