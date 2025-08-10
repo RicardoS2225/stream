@@ -6,7 +6,7 @@ export const atbChannels: Channel[] = [
   {
     id: 'atb-bolivia',
     name: 'ATB Bolivia',
-    url: `/api/proxy?url=${encodeURIComponent(atbBoliviaUrl)}`,
+    url: atbBoliviaUrl,
   },
   {
     id: 'atb-movil',
