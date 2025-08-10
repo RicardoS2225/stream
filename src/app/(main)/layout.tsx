@@ -1,4 +1,5 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Logo } from '@/components/logo';
 import { MainNav } from '@/components/main-nav';
@@ -16,10 +17,12 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isCanalesPage = pathname.startsWith('/canales');
 
   return (
     <SidebarProvider>
-       <GridSizeProvider>
+      <GridSizeProvider>
         <Sheet>
           <SheetContent side="left" className="w-[280px] p-0">
             <SheetHeader className="p-2">
@@ -32,7 +35,7 @@ export default function MainLayout({
           </SheetContent>
           <div className="flex w-full flex-col bg-background h-screen">
             <div className="flex flex-col h-full">
-              <Header />
+              {!isCanalesPage && <Header />}
               <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
                 {children}
               </main>
