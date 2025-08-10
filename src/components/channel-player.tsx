@@ -1,6 +1,13 @@
 'use client';
 
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import ReactPlayer from 'react-player/lazy';
 import {
   Volume2,
@@ -30,96 +37,93 @@ type ChannelPlayerProps = {
   onSetPipChannel: (channel: Channel | null) => void;
 };
 
-export function ChannelPlayer({
-  channel,
-  isSolo,
-  isMuted,
-  onSolo,
-  onMuteToggle,
-  onSetPipChannel,
-}: ChannelPlayerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<ReactPlayer>(null);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isReady, setIsReady] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
+export type ChannelPlayerRef = {
+  enterFullScreen: () => void;
+};
 
-  const [isSingleChannelView, setIsSingleChannelView] = useState(false);
+export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
+  (
+    { channel, isSolo, isMuted, onSolo, onMuteToggle, onSetPipChannel },
+    ref
+  ) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const playerRef = useRef<ReactPlayer>(null);
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [isReady, setIsReady] = useState(false);
+    const [hasMounted, setHasMounted] = useState(false);
 
-  const videoUrl = channel.url;
+    const videoUrl = channel.url;
 
-  useEffect(() => {
-    setHasMounted(true);
-    // A simple way to check if we are on the single channel page
-    // by checking if the onSolo prop is just an empty function.
-    // This is a bit of a hack, but it works for our current setup.
-    if (onSolo.toString() === '() => {}') {
-        setIsSingleChannelView(true);
-    }
+    useEffect(() => {
+      setHasMounted(true);
+    }, []);
 
-  }, [onSolo]);
+    const handleFullScreen = useCallback(() => {
+      if (!containerRef.current) return;
+      if (!document.fullscreenElement) {
+        containerRef.current.requestFullscreen().catch(err => {
+          alert(
+            `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+          );
+        });
+        setIsFullScreen(true);
+      } else {
+        document.exitFullscreen();
+        setIsFullScreen(false);
+      }
+    }, []);
 
-  const handleFullScreen = useCallback(() => {
-    if (!containerRef.current) return;
-    if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().catch(err => {
-        alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
-      setIsFullScreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullScreen(false);
-    }
-  }, []);
+    useImperativeHandle(ref, () => ({
+      enterFullScreen: () => {
+        handleFullScreen();
+      },
+    }));
 
-  useEffect(() => {
-    const onFullScreenChange = () => {
-      setIsFullScreen(!!document.fullscreenElement);
+    useEffect(() => {
+      const onFullScreenChange = () => {
+        setIsFullScreen(!!document.fullscreenElement);
+      };
+      document.addEventListener('fullscreenchange', onFullScreenChange);
+      return () =>
+        document.removeEventListener('fullscreenchange', onFullScreenChange);
+    }, []);
+
+    const handleSoloClick = () => {
+      onSolo(isSolo ? null : channel.id);
     };
-    document.addEventListener('fullscreenchange', onFullScreenChange);
-    return () =>
-      document.removeEventListener('fullscreenchange', onFullScreenChange);
-  }, []);
 
-  const handleSoloClick = () => {
-    onSolo(isSolo ? null : channel.id);
-  };
+    const handlePipClick = () => {
+      onSetPipChannel(channel);
+    };
 
-  const handlePipClick = () => {
-    onSetPipChannel(channel);
-  };
+    const effectiveMuted = isMuted;
 
-  const effectiveMuted = isMuted;
-
-  return (
-    <TooltipProvider>
-      <div
-        ref={containerRef}
-        className={cn(
-          'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black',
-          isSolo && !isSingleChannelView ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
-        )}
-      >
-        {channel.logo && (
-          <div className="absolute top-2 left-2 z-20 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
-            <Image
-              src={channel.logo}
-              alt={`${channel.name} logo`}
-              width={48}
-              height={48}
-              className={cn('h-8 w-auto rounded-sm object-contain')}
-            />
-          </div>
-        )}
-        <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-2 bg-gradient-to-b from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <h3 className="text-sm font-semibold truncate text-white drop-shadow-md">
-            {channel.name}
-          </h3>
-          <div className="flex items-center gap-1">
-            {!isSingleChannelView && (
+    return (
+      <TooltipProvider>
+        <div
+          ref={containerRef}
+          className={cn(
+            'group relative flex flex-col aspect-video rounded-lg overflow-hidden border-2 transition-colors duration-300 bg-black',
+            isSolo ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
+          )}
+        >
+          {channel.logo && (
+            <div className="absolute top-2 left-2 z-20 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <Image
+                src={channel.logo}
+                alt={`${channel.name} logo`}
+                width={48}
+                height={48}
+                className={cn('h-8 w-auto rounded-sm object-contain')}
+              />
+            </div>
+          )}
+          <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-2 bg-gradient-to-b from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <h3 className="text-sm font-semibold truncate text-white drop-shadow-md">
+              {channel.name}
+            </h3>
+            <div className="flex items-center gap-1">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -133,28 +137,26 @@ export function ChannelPlayer({
                 </TooltipTrigger>
                 <TooltipContent>Pantalla en Pantalla</TooltipContent>
               </Tooltip>
-            )}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
-                  onClick={() => onMuteToggle(channel.id)}
-                >
-                  {effectiveMuted ? (
-                    <VolumeX className="h-4 w-4" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {effectiveMuted ? 'Activar Sonido' : 'Silenciar'}
-              </TooltipContent>
-            </Tooltip>
-            {!isSingleChannelView && (
-               <Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
+                    onClick={() => onMuteToggle(channel.id)}
+                  >
+                    {effectiveMuted ? (
+                      <VolumeX className="h-4 w-4" />
+                    ) : (
+                      <Volume2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {effectiveMuted ? 'Activar Sonido' : 'Silenciar'}
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant={isSolo ? 'default' : 'ghost'}
@@ -167,60 +169,62 @@ export function ChannelPlayer({
                 </TooltipTrigger>
                 <TooltipContent>Audio Solo</TooltipContent>
               </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
+                    onClick={handleFullScreen}
+                  >
+                    <Maximize className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Pantalla Completa</TooltipContent>
+              </Tooltip>
+            </div>
+          </header>
+          <div className="flex-1 w-full h-full">
+            {hasMounted && videoUrl !== 'about:blank' ? (
+              <ReactPlayer
+                ref={playerRef}
+                url={videoUrl}
+                playing={isPlaying}
+                muted={effectiveMuted}
+                onReady={() => setIsReady(true)}
+                width="100%"
+                height="100%"
+                config={{
+                  file: {
+                    forceHLS: true,
+                  },
+                }}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-muted">
+                <p className="text-muted-foreground text-sm p-2 text-center">
+                  Canal no disponible
+                </p>
+              </div>
             )}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 text-white hover:bg-white/20 hover:text-white"
-                  onClick={handleFullScreen}
-                >
-                  <Maximize className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Pantalla Completa</TooltipContent>
-            </Tooltip>
+            {!isReady && hasMounted && videoUrl !== 'about:blank' && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+                <Loader className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            )}
           </div>
-        </header>
-        <div className="flex-1 w-full h-full">
-          {hasMounted && videoUrl !== 'about:blank' ? (
-            <ReactPlayer
-              ref={playerRef}
-              url={videoUrl}
-              playing={isPlaying}
-              muted={effectiveMuted}
-              onReady={() => setIsReady(true)}
-              width="100%"
-              height="100%"
-              config={{
-                file: {
-                  forceHLS: true,
-                },
-              }}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-muted">
-              <p className="text-muted-foreground text-sm p-2 text-center">
-                Canal no disponible
-              </p>
-            </div>
-          )}
-          {!isReady && hasMounted && videoUrl !== 'about:blank' && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/70">
-              <Loader className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          )}
+          <footer
+            className={cn(
+              'absolute bottom-0 left-0 right-0 p-1.5 text-center text-xs text-white bg-gradient-to-t from-black/60 to-transparent transition-opacity',
+              isSolo ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+            )}
+          >
+            {isSolo ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
+          </footer>
         </div>
-        <footer
-          className={cn(
-            'absolute bottom-0 left-0 right-0 p-1.5 text-center text-xs text-white bg-gradient-to-t from-black/60 to-transparent transition-opacity',
-            isSolo && !isSingleChannelView ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-          )}
-        >
-          {isSolo && !isSingleChannelView ? 'Escuchando...' : 'Subtítulos en vivo (no disponible)'}
-        </footer>
-      </div>
-    </TooltipProvider>
-  );
-}
+      </TooltipProvider>
+    );
+  }
+);
+
+ChannelPlayer.displayName = 'ChannelPlayer';

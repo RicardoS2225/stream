@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { ChannelGrid } from '@/components/channel-grid';
+import { useState, useRef } from 'react';
+import { ChannelGrid, type ChannelGridRef } from '@/components/channel-grid';
 import { channels } from '@/lib/channels';
 import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
@@ -13,9 +13,15 @@ import { DraggablePlayer } from '@/components/draggable-player';
 export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [pipChannel, setPipChannel] = useState<Channel | null>(null);
+  const gridRef = useRef<ChannelGridRef>(null);
 
   const handleSetPipChannel = (channel: Channel | null) => {
     setPipChannel(channel);
+  };
+
+  const handleEnterFullScreen = (channelId: string) => {
+    gridRef.current?.enterFullScreen(channelId);
+    handleSetPipChannel(null); // Close PiP when entering fullscreen
   };
 
   return (
@@ -53,6 +59,7 @@ export default function CanalesPage() {
       <div className="flex-1 overflow-y-auto">
         <div className="pt-2">
           <ChannelGrid
+            ref={gridRef}
             channels={channels}
             onSetPipChannel={handleSetPipChannel}
             pipChannelId={pipChannel?.id}
@@ -64,6 +71,7 @@ export default function CanalesPage() {
         <DraggablePlayer
           channel={pipChannel}
           onClose={() => handleSetPipChannel(null)}
+          onEnterFullScreen={handleEnterFullScreen}
         />
       )}
     </div>

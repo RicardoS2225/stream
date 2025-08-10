@@ -6,14 +6,18 @@ import { X, GripVertical, Expand } from 'lucide-react';
 import type { Channel } from '@/lib/types';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import Link from 'next/link';
 
 interface DraggablePlayerProps {
   channel: Channel;
   onClose: () => void;
+  onEnterFullScreen: (channelId: string) => void;
 }
 
-export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
+export function DraggablePlayer({
+  channel,
+  onClose,
+  onEnterFullScreen,
+}: DraggablePlayerProps) {
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef<HTMLDivElement>(null);
@@ -21,10 +25,13 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only drag when clicking the header
-    if (e.target instanceof HTMLButtonElement || e.target instanceof HTMLAnchorElement || e.target.closest('a, button')) {
-        return;
+    if (
+      e.target instanceof HTMLButtonElement ||
+      e.target.closest('a, button')
+    ) {
+      return;
     }
-    
+
     if (!dragRef.current) return;
     setIsDragging(true);
     const rect = dragRef.current.getBoundingClientRect();
@@ -62,6 +69,10 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
     };
   }, [isDragging]);
 
+  const handleBackToScreenClick = () => {
+    onEnterFullScreen(channel.id);
+  };
+
   return (
     <div
       ref={dragRef}
@@ -81,7 +92,12 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
             <GripVertical className="h-5 w-5 text-muted-foreground" />
             <h3 className="font-semibold text-sm">{channel.name}</h3>
           </div>
-          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onClose}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6"
+            onClick={onClose}
+          >
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </Button>
@@ -101,11 +117,9 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
             controls={false} // Simple view
           />
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <Button asChild variant="secondary">
-                <Link href={`/canales/${channel.id}`} onClick={onClose}>
-                    <Expand className="mr-2 h-4 w-4"/>
-                    Volver a la Pantalla
-                </Link>
+            <Button variant="secondary" onClick={handleBackToScreenClick}>
+              <Expand className="mr-2 h-4 w-4" />
+              Volver a la Pantalla
             </Button>
           </div>
         </div>
