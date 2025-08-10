@@ -9,7 +9,7 @@ export const unitelChannels: Channel[] = [
   {
     id: 'unitel-lpz',
     name: 'Unitel La Paz',
-    url: 'https://www.dailymotion.com/video/x7vsfua',
+    url: 'https://live2.eu-north-1a.cf.dmcdn.net/sec2(6opPtMOC2aoVR2-HhgPgnIyce1zWYGjZl9J-bimfP0GiGCdL5RVFlsp_KaQDrqSL-68vwpgeoz4Y5lDyJIX0gr3HOrR_E47alx4PTrbx0W-2u-KtquC9IkCvDlg812Lp)/cloud/3/x7vsfua/d/live-240.m3u8',
   },
   {
     id: 'unitel-scz',
