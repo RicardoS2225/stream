@@ -24,12 +24,11 @@ export default function CanalesPage() {
         </div>
       </div>
 
-      <div className="relative flex-1 overflow-y-auto pt-2">
-         {/* Botón movido para que esté relativo al contenedor de la cuadrícula */}
+      <div className="relative flex-1 overflow-y-auto">
         <Button
           variant="secondary"
           size="icon"
-          className="absolute top-2 left-2 z-50 h-8 w-8 rounded-full shadow-lg"
+          className="absolute top-4 left-4 z-50 h-8 w-8 rounded-full shadow-lg"
           onClick={() => setIsHeaderVisible(!isHeaderVisible)}
         >
           {isHeaderVisible ? (
@@ -39,7 +38,9 @@ export default function CanalesPage() {
           )}
           <span className="sr-only">Toggle Header</span>
         </Button>
-        <ChannelGrid channels={channels} />
+        <div className="pt-2">
+          <ChannelGrid channels={channels} />
+        </div>
       </div>
     </div>
   );
