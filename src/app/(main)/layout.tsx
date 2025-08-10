@@ -20,17 +20,15 @@ export default function MainLayout({
     const pathname = usePathname();
     const isCanalesPage = pathname.startsWith('/canales');
 
-    // El layout de canales ahora se maneja en su propio archivo.
-    // Si estamos en la página de canales, devolvemos solo a los hijos
-    // para que el layout específico de canales tome el control total.
+    // Si estamos en la página de canales, pasamos el control al layout específico de canales.
     if (isCanalesPage) {
         return <>{children}</>;
     }
 
+  // Para el resto de las páginas, usamos el layout con la barra lateral fija.
   return (
     <SidebarProvider>
       <div className="flex w-full flex-col bg-background">
-        {/* La barra lateral fija para las demás páginas */}
         <Sidebar>
           <SidebarHeader>
             <Logo />
@@ -41,7 +39,6 @@ export default function MainLayout({
           </SidebarContent>
         </Sidebar>
 
-        {/* El contenido principal con el margen para la barra lateral */}
         <SidebarInset>
           <div className="flex flex-col h-screen">
             <Header />
