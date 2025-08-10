@@ -66,7 +66,7 @@ export function ChannelPlayer({
     onSolo(isSolo ? null : channel.id);
   };
   
-  const effectiveMuted = isSolo ? false : isMuted;
+  const effectiveMuted = isMuted;
 
   return (
     <TooltipProvider>
