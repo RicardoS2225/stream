@@ -1,10 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { SidebarTrigger } from '@/components/ui/sidebar';
+import { SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Newspaper, User } from 'lucide-react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import { Newspaper, User, PanelLeft } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +31,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md sm:px-6 shrink-0">
       <div className="flex items-center gap-2">
-        <SidebarTrigger />
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <PanelLeft />
+            <span className="sr-only">Abrir menú</span>
+          </Button>
+        </SheetTrigger>
         <h1 className="text-xl font-semibold font-headline">{title}</h1>
       </div>
 
