@@ -12,12 +12,12 @@ export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   return (
-    <div className="flex flex-col h-full w-full relative">
-      {/* This button is now positioned absolutely relative to the whole page container */}
+    <div className="flex flex-col h-full w-full">
+      {/* Este botón ahora tiene una posición FIJA con respecto a la ventana del navegador */}
       <Button
         variant="secondary"
         size="icon"
-        className="absolute top-4 left-4 z-50 h-8 w-8 rounded-full shadow-lg"
+        className="fixed top-4 left-4 z-50 h-8 w-8 rounded-full shadow-lg"
         onClick={() => setIsHeaderVisible(!isHeaderVisible)}
       >
         {isHeaderVisible ? (
