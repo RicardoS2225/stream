@@ -69,10 +69,6 @@ export function DraggablePlayer({
     };
   }, [isDragging]);
 
-  const handleBackToScreenClick = () => {
-    onEnterFullScreen(channel.id);
-  };
-
   return (
     <div
       ref={dragRef}
@@ -117,7 +113,7 @@ export function DraggablePlayer({
             controls={false} // Simple view
           />
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <Button variant="secondary" onClick={handleBackToScreenClick}>
+            <Button variant="secondary" onClick={() => onEnterFullScreen(channel.id)}>
               <Expand className="mr-2 h-4 w-4" />
               Volver a la Pantalla
             </Button>
