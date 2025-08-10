@@ -15,6 +15,7 @@ import {
   Maximize,
   Loader,
   PictureInPicture2,
+  VolumeX,
 } from 'lucide-react';
 import type { Channel } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -30,7 +31,6 @@ import Image from 'next/image';
 type ChannelPlayerProps = {
   channel: Channel;
   isSolo: boolean;
-  isMuted: boolean;
   onSolo: (id: string | null) => void;
   onSetPipChannel: (channel: Channel | null) => void;
 };
@@ -41,16 +41,16 @@ export type ChannelPlayerRef = {
 
 export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
   (
-    { channel, isSolo, isMuted, onSolo, onSetPipChannel },
+    { channel, isSolo, onSolo, onSetPipChannel },
     ref
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const playerRef = useRef<ReactPlayer>(null);
-    const [isPlaying, setIsPlaying] = useState(true);
     const [isReady, setIsReady] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
 
-    const videoUrl = channel.url;
+    // This is the single source of truth for muting.
+    const actualMuted = !isSolo;
 
     useEffect(() => {
       setHasMounted(true);
@@ -142,10 +142,10 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
                     className="h-7 w-7 text-white hover:bg-white/20 data-[state=on]:bg-primary"
                     onClick={handleSoloClick}
                   >
-                    {isSolo ? <Volume2 className="h-4 w-4" /> : <Radio className="h-4 w-4" />}
+                    {isSolo ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Audio Solo</TooltipContent>
+                <TooltipContent>{isSolo ? 'Silenciar' : 'Audio Solo'}</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -163,12 +163,12 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
             </div>
           </header>
           <div className="flex-1 w-full h-full">
-            {hasMounted && videoUrl !== 'about:blank' ? (
+            {hasMounted && channel.url !== 'about:blank' ? (
               <ReactPlayer
                 ref={playerRef}
-                url={videoUrl}
-                playing={isPlaying}
-                muted={isMuted}
+                url={channel.url}
+                playing={true}
+                muted={actualMuted}
                 onReady={() => setIsReady(true)}
                 width="100%"
                 height="100%"
@@ -185,7 +185,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
                 </p>
               </div>
             )}
-            {!isReady && hasMounted && videoUrl !== 'about:blank' && (
+            {!isReady && hasMounted && channel.url !== 'about:blank' && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/70">
                 <Loader className="h-8 w-8 animate-spin text-primary" />
               </div>
