@@ -1,10 +1,9 @@
-// src/app/(main)/canales/layout.tsx
-import { GridSizeProvider } from '@/contexts/grid-size-context';
-
+// Este archivo se ha dejado vacío intencionadamente para que se pueda eliminar.
+// La lógica del GridSizeProvider se ha movido a src/app/(main)/layout.tsx.
 export default function CanalesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <GridSizeProvider>{children}</GridSizeProvider>;
+  return <>{children}</>;
 }
