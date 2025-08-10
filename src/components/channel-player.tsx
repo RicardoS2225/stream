@@ -95,8 +95,6 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
       onSetPipChannel(channel);
     };
 
-    const effectiveMuted = isSolo ? false : true;
-
     return (
       <TooltipProvider>
         <div
@@ -169,7 +167,7 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
                 ref={playerRef}
                 url={videoUrl}
                 playing={isPlaying}
-                muted={effectiveMuted}
+                muted={isMuted}
                 onReady={() => setIsReady(true)}
                 width="100%"
                 height="100%"
