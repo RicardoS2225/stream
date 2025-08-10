@@ -19,6 +19,6 @@ export const unitelChannels: Channel[] = [
   {
     id: 'unitel-cbba',
     name: 'Unitel Cochabamba',
-    url: 'https://www.dailymotion.com/video/x7y922d',
+    url: 'https://live2.eu-north-1a.cf.dmcdn.net/sec2(8FjqBtbrvhB2gnPUnNdlNDOymQ2DiKBRTtDIXwxFxy2kRD_MFRbo4j7qZemzwGBI4TBeGSCORNVUeclodG1WEaWFXQrgvAfrGKWRh--vGjUyROYJA64KQPR-JGpciHLm)/cloud/3/x7y922d/d/live-720.m3u8',
   },
 ];
