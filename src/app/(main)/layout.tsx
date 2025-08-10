@@ -1,3 +1,4 @@
+'use client';
 import { Header } from '@/components/header';
 import { Logo } from '@/components/logo';
 import { MainNav } from '@/components/main-nav';
@@ -9,12 +10,20 @@ import {
   SidebarInset,
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
+import { usePathname } from 'next/navigation';
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+    const pathname = usePathname();
+    const isCanalesPage = pathname.startsWith('/canales');
+
+    if (isCanalesPage) {
+        return <>{children}</>;
+    }
+
   return (
     <SidebarProvider>
       <div className="flex w-full flex-col bg-background">
