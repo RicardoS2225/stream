@@ -42,14 +42,14 @@ export async function GET(req: NextRequest) {
         let playlist = await response.text();
         const targetUri = new URL(targetUrl);
         
-        // This regex finds URLs for segments or sub-playlists
+        // This regex finds URLs for segments or sub-playlists that are not comments
         const urlRegex = /^(?!#)(.*)$/gm;
 
         playlist = playlist.replace(urlRegex, (match) => {
             if (match.trim() === '' || match.startsWith('#')) {
                 return match;
             }
-            // If the URL is relative, make it absolute
+            // If the URL is relative, make it absolute based on the target m3u8's URL
             const absoluteUrl = new URL(match, targetUri.href).href;
             // Rewrite it to point to our proxy
             return `${appBaseUrl}/api/proxy?url=${encodeURIComponent(absoluteUrl)}`;
