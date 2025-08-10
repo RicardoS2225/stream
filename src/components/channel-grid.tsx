@@ -12,6 +12,8 @@ type ChannelGridProps = {
   isSalaDePrensa?: boolean;
   onSetPipChannel: (channel: Channel | null) => void;
   pipChannelId?: string | null;
+  onDragStart?: (channelId: string) => void;
+  onDrop?: (targetChannelId: string) => void;
 };
 
 export type ChannelGridRef = {
@@ -25,6 +27,8 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
       isSalaDePrensa = false,
       onSetPipChannel,
       pipChannelId,
+      onDragStart,
+      onDrop,
     },
     ref
   ) => {
@@ -43,10 +47,12 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
     };
 
     const handleSetPipChannel = (channel: Channel | null) => {
-      // When a channel goes PiP, it should be the only one with sound.
-      // And when it's closed, audio should revert to all on.
       setSoloChannelId(channel ? channel.id : null);
       onSetPipChannel(channel);
+    };
+    
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault(); // Necessary to allow dropping
     };
 
     if (!channels || channels.length === 0) {
@@ -71,9 +77,6 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
 
-          // A channel is muted if:
-          // 1. Another channel is in "solo" mode.
-          // 2. This specific channel is currently in PiP mode (so the grid version should be silent).
           const isMuted =
             (soloChannelId !== null && soloChannelId !== channel.id) ||
             (pipChannelId !== null && channel.id === pipChannelId);
@@ -81,7 +84,11 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           return (
             <div
               key={channel.id}
-              className={cn('relative')}
+              className={cn('relative', { 'cursor-grab': isSalaDePrensa })}
+              draggable={isSalaDePrensa}
+              onDragStart={() => onDragStart?.(channel.id)}
+              onDragOver={handleDragOver}
+              onDrop={() => onDrop?.(channel.id)}
             >
               <div className={cn('h-full w-full', isPip ? 'opacity-0 pointer-events-none' : 'opacity-100')}>
                 <ChannelPlayer

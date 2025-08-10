@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { ChannelGrid, type ChannelGridRef } from '@/components/channel-grid';
-import { salaDePrensaChannels } from '@/lib/channels/sala-de-prensa';
+import { salaDePrensaChannels as initialSalaDePrensaChannels } from '@/lib/channels/sala-de-prensa';
 import { Header } from '@/components/header';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -11,9 +11,11 @@ import type { Channel } from '@/lib/types';
 import { DraggablePlayer } from '@/components/draggable-player';
 
 export default function SalaDePrensaPage() {
+  const [channels, setChannels] = useState(initialSalaDePrensaChannels);
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [pipChannel, setPipChannel] = useState<Channel | null>(null);
   const gridRef = useRef<ChannelGridRef>(null);
+  const dragChannelId = useRef<string | null>(null);
 
   const handleSetPipChannel = (channel: Channel | null) => {
     setPipChannel(channel);
@@ -23,6 +25,38 @@ export default function SalaDePrensaPage() {
     gridRef.current?.enterFullScreen(channelId);
     setPipChannel(null); // Close PiP when entering fullscreen
   }, []);
+
+  const handleDragStart = (channelId: string) => {
+    dragChannelId.current = channelId;
+  };
+
+  const handleDrop = (targetChannelId: string) => {
+    if (!dragChannelId.current || dragChannelId.current === targetChannelId) {
+      return;
+    }
+
+    setChannels(prevChannels => {
+      const newChannels = [...prevChannels];
+      const draggedIndex = newChannels.findIndex(
+        (c) => c.id === dragChannelId.current
+      );
+      const targetIndex = newChannels.findIndex(
+        (c) => c.id === targetChannelId
+      );
+
+      if (draggedIndex === -1 || targetIndex === -1) return prevChannels;
+
+      // Swap the channels
+      [newChannels[draggedIndex], newChannels[targetIndex]] = [
+        newChannels[targetIndex],
+        newChannels[draggedIndex],
+      ];
+      
+      return newChannels;
+    });
+    dragChannelId.current = null;
+  };
+
 
   return (
     <div className="flex flex-col h-full w-full relative">
@@ -59,10 +93,12 @@ export default function SalaDePrensaPage() {
       <div className="flex-1 overflow-hidden pt-2">
         <ChannelGrid
           ref={gridRef}
-          channels={salaDePrensaChannels}
+          channels={channels}
           isSalaDePrensa={true}
           onSetPipChannel={handleSetPipChannel}
           pipChannelId={pipChannel?.id}
+          onDragStart={handleDragStart}
+          onDrop={handleDrop}
         />
       </div>
 
