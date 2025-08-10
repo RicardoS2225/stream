@@ -56,16 +56,14 @@ export default function SalaDePrensaPage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-hidden">
-        <div className="pt-2 h-full">
-          <ChannelGrid
-            ref={gridRef}
-            channels={salaDePrensaChannels}
-            isSalaDePrensa={true}
-            onSetPipChannel={handleSetPipChannel}
-            pipChannelId={pipChannel?.id}
-          />
-        </div>
+      <div className="flex-1 overflow-hidden pt-2">
+        <ChannelGrid
+          ref={gridRef}
+          channels={salaDePrensaChannels}
+          isSalaDePrensa={true}
+          onSetPipChannel={handleSetPipChannel}
+          pipChannelId={pipChannel?.id}
+        />
       </div>
 
       {pipChannel && (

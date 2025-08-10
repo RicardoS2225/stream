@@ -28,6 +28,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
     },
     ref
   ) => {
+    const { gridSize } = useGridSize();
     const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
     const playerRefs = useRef<Map<string, ChannelPlayerRef | null>>(new Map());
 
@@ -48,10 +49,14 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
         </div>
       );
     }
-
+    
     const gridClasses = isSalaDePrensa
-      ? `grid-cols-4 grid-rows-4`
-      : `grid-cols-${gridSize}`;
+      ? 'grid-cols-4 grid-rows-4'
+      : {
+          2: 'grid-cols-2',
+          3: 'grid-cols-3',
+          4: 'grid-cols-4',
+        }[gridSize] || 'grid-cols-3';
 
     return (
       <div className={cn('grid gap-2 h-full', gridClasses)}>
@@ -66,24 +71,25 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
               key={channel.id}
               className={cn(
                 'relative',
-                isPip && 'opacity-0 pointer-events-none'
               )}
             >
-              <ChannelPlayer
-                ref={node => {
-                  if (node) {
-                    playerRefs.current.set(channel.id, node);
-                  } else {
-                    playerRefs.current.delete(channel.id);
-                  }
-                }}
-                channel={channel}
-                isSolo={soloChannelId === channel.id}
-                isMuted={isMuted}
-                onSolo={handleSolo}
-                onMuteToggle={() => {}} // Mute is now handled by solo
-                onSetPipChannel={onSetPipChannel}
-              />
+              <div className={cn('h-full w-full', isPip && 'opacity-0 pointer-events-none')}>
+                <ChannelPlayer
+                  ref={node => {
+                    if (node) {
+                      playerRefs.current.set(channel.id, node);
+                    } else {
+                      playerRefs.current.delete(channel.id);
+                    }
+                  }}
+                  channel={channel}
+                  isSolo={soloChannelId === channel.id}
+                  isMuted={isMuted}
+                  onSolo={handleSolo}
+                  onMuteToggle={() => {}} // Mute is now handled by solo
+                  onSetPipChannel={onSetPipChannel}
+                />
+              </div>
                {isPip && (
                  <Card
                     className="absolute inset-0 flex items-center justify-center bg-muted/40 border-dashed"
