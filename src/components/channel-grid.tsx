@@ -64,8 +64,8 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isPip = channel.id === pipChannelId;
           const isSolo = soloChannelId === channel.id;
           
-          // A channel is muted if another channel is solo, OR if there's an active PiP channel that is not this one.
-          const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null && !isPip);
+          // A channel is muted if another channel is solo, OR if there's an active PiP channel.
+          const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null);
 
           return (
             <div
@@ -87,7 +87,6 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
                   isSolo={isSolo}
                   isMuted={isMuted}
                   onSolo={handleSolo}
-                  onMuteToggle={() => {}} // Mute is now handled by solo
                   onSetPipChannel={onSetPipChannel}
                 />
               </div>

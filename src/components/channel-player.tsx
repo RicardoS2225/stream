@@ -11,9 +11,8 @@ import React, {
 import ReactPlayer from 'react-player/lazy';
 import {
   Volume2,
-  VolumeX,
-  Maximize,
   Radio,
+  Maximize,
   Loader,
   PictureInPicture2,
 } from 'lucide-react';
@@ -33,7 +32,6 @@ type ChannelPlayerProps = {
   isSolo: boolean;
   isMuted: boolean;
   onSolo: (id: string | null) => void;
-  onMuteToggle: (id: string) => void;
   onSetPipChannel: (channel: Channel | null) => void;
 };
 
@@ -43,7 +41,7 @@ export type ChannelPlayerRef = {
 
 export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
   (
-    { channel, isSolo, isMuted, onSolo, onMuteToggle, onSetPipChannel },
+    { channel, isSolo, isMuted, onSolo, onSetPipChannel },
     ref
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -80,8 +78,9 @@ export const ChannelPlayer = forwardRef<ChannelPlayerRef, ChannelPlayerProps>(
 
     useEffect(() => {
       const onFullScreenChange = () => {
+        // When exiting fullscreen, if this channel was solo, un-solo it.
         if (!document.fullscreenElement && isSolo) {
-            onSolo(null); // Un-solo when exiting fullscreen
+            onSolo(null); 
         }
       };
       document.addEventListener('fullscreenchange', onFullScreenChange);
