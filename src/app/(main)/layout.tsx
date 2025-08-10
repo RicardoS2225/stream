@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Logo } from '@/components/logo';
 import { MainNav } from '@/components/main-nav';
-import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { GridSizeProvider } from '@/contexts/grid-size-context';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -23,6 +23,7 @@ export default function MainLayout({
         <Sheet>
           <SheetContent side="left" className="w-[280px] p-0">
             <SheetHeader className="p-2">
+              <SheetTitle className="sr-only">Menú Principal</SheetTitle>
               <Logo />
             </SheetHeader>
             <Separator />
