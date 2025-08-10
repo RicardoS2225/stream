@@ -4,7 +4,7 @@ export const boliviaTvChannels: Channel[] = [
   {
     id: 'bolivia-tv-7-1',
     name: 'Bolivia TV 7.1',
-    url: 'http://boliviatv1.srfms.com:5735/live/livestream/playlist.m3u8',
+    url: 'https://live.eu-north-1b.cf.dmcdn.net/sec2(wF-tKU6kpww1WUV6iFxgOVEXV1jrpz18IRHvH_0CIMsqPNr_Wf3GBCeg0ImXHOpFXg0cGmwpiwdt31uHEDyvl3rTp28z5O6FzjrmfWACYeiEUvCaMV31RyWVGELMHNFu)/dm/3/x9oda6c/s/live-480.m3u8',
   },
   {
     id: 'bolivia-tv-7-2',
