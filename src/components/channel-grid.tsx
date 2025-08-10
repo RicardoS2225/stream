@@ -1,4 +1,3 @@
-// src/components/channel-grid.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -9,9 +8,10 @@ import { useGridSize } from '@/contexts/grid-size-context';
 
 type ChannelGridProps = {
   channels: Channel[];
+  isSalaDePrensa?: boolean;
 };
 
-export function ChannelGrid({ channels }: ChannelGridProps) {
+export function ChannelGrid({ channels, isSalaDePrensa = false }: ChannelGridProps) {
   const [soloChannelId, setSoloChannelId] = useState<string | null>(null);
   const [mutedChannels, setMutedChannels] = useState<Set<string>>(new Set());
   const { gridSize } = useGridSize();
@@ -35,21 +35,23 @@ export function ChannelGrid({ channels }: ChannelGridProps) {
       </div>
     );
   }
+  
+  const gridClasses = isSalaDePrensa
+    ? `grid-cols-4 grid-rows-4` // Always 4x4 grid for Sala de Prensa
+    : `grid-cols-${gridSize}`; // Dynamic grid size for other pages
 
   return (
-    <div className='flex flex-col h-full'>
-      <div className={cn('grid gap-4 flex-1', `grid-cols-${gridSize}`)}>
-        {channels.map((channel) => (
-          <ChannelPlayer
-            key={channel.id}
-            channel={channel}
-            isSolo={soloChannelId === channel.id}
-            isMuted={mutedChannels.has(channel.id)}
-            onSolo={setSoloChannelId}
-            onMuteToggle={handleMuteToggle}
-          />
-        ))}
-      </div>
+    <div className={cn('grid gap-2 h-full', gridClasses)}>
+      {channels.map((channel) => (
+        <ChannelPlayer
+          key={channel.id}
+          channel={channel}
+          isSolo={soloChannelId === channel.id}
+          isMuted={mutedChannels.has(channel.id)}
+          onSolo={setSoloChannelId}
+          onMuteToggle={handleMuteToggle}
+        />
+      ))}
     </div>
   );
 }

@@ -49,9 +49,9 @@ export default function SalaDePrensaPage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        <div className="pt-2">
-          <ChannelGrid channels={salaDePrensaChannels} />
+      <div className="flex-1 overflow-hidden">
+        <div className="pt-2 h-full">
+          <ChannelGrid channels={salaDePrensaChannels} isSalaDePrensa={true} />
         </div>
       </div>
     </div>
