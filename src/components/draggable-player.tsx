@@ -2,11 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import ReactPlayer from 'react-player/lazy';
-import { X, GripVertical } from 'lucide-react';
+import { X, GripVertical, Expand } from 'lucide-react';
 import type { Channel } from '@/lib/types';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface DraggablePlayerProps {
   channel: Channel;
@@ -21,7 +21,9 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only drag when clicking the header
-    if (e.currentTarget.dataset.dragHandle === undefined) return;
+    if (e.target instanceof HTMLButtonElement || e.target instanceof HTMLAnchorElement || e.target.closest('a, button')) {
+        return;
+    }
     
     if (!dragRef.current) return;
     setIsDragging(true);
@@ -63,7 +65,7 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
   return (
     <div
       ref={dragRef}
-      className="fixed z-50 w-[440px] max-w-[80vw] resize overflow-auto"
+      className="fixed z-50 w-[440px] max-w-[80vw] resize overflow-auto group"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
@@ -72,7 +74,6 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
     >
       <Card className="flex flex-col shadow-2xl border-2 border-primary overflow-hidden h-full">
         <div
-          data-drag-handle
           onMouseDown={handleMouseDown}
           className="flex items-center justify-between bg-card p-2 cursor-grab active:cursor-grabbing"
         >
@@ -85,7 +86,7 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
             <span className="sr-only">Close</span>
           </Button>
         </div>
-        <div className="aspect-video bg-black">
+        <div className="aspect-video bg-black relative">
           <ReactPlayer
             url={channel.url}
             playing={true}
@@ -99,6 +100,14 @@ export function DraggablePlayer({ channel, onClose }: DraggablePlayerProps) {
             }}
             controls={false} // Simple view
           />
+          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <Button asChild variant="secondary">
+                <Link href={`/canales/${channel.id}`} onClick={onClose}>
+                    <Expand className="mr-2 h-4 w-4"/>
+                    Volver a la Pantalla
+                </Link>
+            </Button>
+          </div>
         </div>
       </Card>
     </div>

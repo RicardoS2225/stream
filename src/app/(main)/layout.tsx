@@ -15,6 +15,7 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const isCanalesPage = pathname.startsWith('/canales');
+  const isSingleChannelPage = /^\/canales\/[^/]+$/.test(pathname);
 
   return (
     <SidebarProvider>
@@ -32,7 +33,11 @@ export default function MainLayout({
           <div className="flex w-full flex-col bg-background h-screen">
             <div className="flex flex-col h-full">
               {!isCanalesPage && <Header />}
-              <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-secondary/40">
+              <main
+                className={`flex-1 overflow-y-auto ${
+                  isSingleChannelPage ? 'p-0' : 'p-4 sm:p-6'
+                } bg-secondary/40`}
+              >
                 {children}
               </main>
             </div>
