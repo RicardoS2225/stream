@@ -19,11 +19,15 @@ export async function GET(req: NextRequest) {
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Referer': targetUrl,
+        'Referer': new URL(targetUrl).origin,
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
       },
     });
 
     if (!response.ok) {
+        console.error(`Proxy fetch error for ${targetUrl}: ${response.status} ${response.statusText}`);
       return new NextResponse(
         `Failed to fetch from upstream: ${response.statusText}`,
         {status: response.status}
@@ -77,8 +81,10 @@ export async function GET(req: NextRequest) {
 
   } catch (error) {
     if (error instanceof Error) {
+        console.error(`Proxy exception for ${targetUrl}: ${error.message}`);
         return new NextResponse(`Proxy error: ${error.message}`, {status: 500});
     }
+    console.error(`Unknown proxy error for ${targetUrl}`, error);
     return new NextResponse('An unknown proxy error occurred', {status: 500});
   }
 }
