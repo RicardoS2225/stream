@@ -12,22 +12,7 @@ export default function CanalesPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   return (
-    <div className="relative flex flex-col h-full w-full">
-      {/* Botón movido fuera del contenedor del Header */}
-      <Button
-        variant="secondary"
-        size="icon"
-        className="absolute top-2 left-2 z-50 h-8 w-8 rounded-full shadow-lg"
-        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
-      >
-        {isHeaderVisible ? (
-          <ChevronUp className="h-5 w-5" />
-        ) : (
-          <ChevronDown className="h-5 w-5" />
-        )}
-        <span className="sr-only">Toggle Header</span>
-      </Button>
-
+    <div className="flex flex-col h-full w-full">
       <div
         className={cn(
           'transition-all duration-300 ease-in-out',
@@ -39,7 +24,21 @@ export default function CanalesPage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pt-4">
+      <div className="relative flex-1 overflow-y-auto pt-2">
+         {/* Botón movido para que esté relativo al contenedor de la cuadrícula */}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="absolute top-2 left-2 z-50 h-8 w-8 rounded-full shadow-lg"
+          onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+        >
+          {isHeaderVisible ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+          <span className="sr-only">Toggle Header</span>
+        </Button>
         <ChannelGrid channels={channels} />
       </div>
     </div>
