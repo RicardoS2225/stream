@@ -2,12 +2,12 @@
 import { Header } from '@/components/header';
 import { Logo } from '@/components/logo';
 import { MainNav } from '@/components/main-nav';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import {
-  SidebarProvider,
   Sheet,
   SheetContent,
   SheetHeader,
-} from '@/components/ui/sidebar';
+} from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 export default function MainLayout({
