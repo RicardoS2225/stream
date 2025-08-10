@@ -21,6 +21,8 @@ export default function MainLayout({
     const isCanalesPage = pathname.startsWith('/canales');
 
     // El layout de canales ahora se maneja en su propio archivo.
+    // Si estamos en la página de canales, devolvemos solo a los hijos
+    // para que el layout específico de canales tome el control total.
     if (isCanalesPage) {
         return <>{children}</>;
     }
