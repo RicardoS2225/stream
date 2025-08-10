@@ -65,6 +65,7 @@ export const ChannelGrid = forwardRef<ChannelGridRef, ChannelGridProps>(
           const isSolo = soloChannelId === channel.id;
           
           // A channel is muted if another channel is solo, OR if there's an active PiP channel.
+          // If no channel is solo and no channel is in PiP, all channels have audio.
           const isMuted = (soloChannelId !== null && !isSolo) || (pipChannelId !== null);
 
           return (
