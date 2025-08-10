@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Monitor de Prensa 360',
-  description: 'Monitor de medios en tiempo real',
+  title: 'Oscar Streaming',
+  description: 'Tu centro de streaming personalizado',
 };
 
 export default function RootLayout({

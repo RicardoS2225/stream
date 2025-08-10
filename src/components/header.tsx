@@ -21,7 +21,7 @@ const getTitle = (pathname: string) => {
   if (pathname.startsWith('/disenos')) return 'Diseños Personalizados';
   if (pathname.startsWith('/alertas')) return 'Alertas y Notificaciones';
   if (pathname.startsWith('/configuracion')) return 'Configuración';
-  return 'Monitor de Prensa 360';
+  return 'Oscar Streaming';
 };
 
 export function Header() {

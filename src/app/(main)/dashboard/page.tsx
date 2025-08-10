@@ -13,10 +13,10 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight font-headline">
-          Bienvenido a Monitor de Prensa 360
+          Bienvenido a Oscar Streaming
         </h1>
         <p className="text-muted-foreground">
-          Su centro de monitoreo de medios en tiempo real.
+          Tu centro de streaming personalizado.
         </p>
       </div>
 
